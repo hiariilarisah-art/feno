@@ -1,0 +1,163 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Géographie · Document intégral (12 parties)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --glass-bg: rgba(255,255,255,0.08);
+            --glass-border: rgba(255,255,255,0.18);
+            --glass-shadow: 0 8px 32px rgba(0,0,0,0.37);
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --bg-dark: #0f0c29;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255,255,255,0.9);
+            --text-muted: rgba(255,255,255,0.6);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        .bg-orb {
+            position: fixed; border-radius: 50%; filter: blur(100px); opacity: 0.5; pointer-events: none; z-index: 0;
+            animation: float 20s ease-in-out infinite;
+        }
+        .bg-orb-1 { width: 600px; height: 600px; background: var(--gradient-1); top: -200px; left: -200px; }
+        .bg-orb-2 { width: 500px; height: 500px; background: var(--gradient-2); bottom: -150px; right: -150px; animation-delay: -7s; }
+        .bg-orb-3 { width: 400px; height: 400px; background: var(--gradient-3); top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: -14s; opacity: 0.3; }
+        @keyframes float {
+            0%,100%{ transform: translate(0,0) scale(1); }
+            33%{ transform: translate(30px,-30px) scale(1.05); }
+            66%{ transform: translate(-20px,20px) scale(0.95); }
+        }
+        .main-wrapper {
+            position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 40px 20px;
+        }
+        .glass-container {
+            background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
+            border-radius: 28px; padding: 50px; box-shadow: var(--glass-shadow);
+        }
+        h1, h2 { font-family: 'Crimson Pro', serif; }
+        h1 {
+            font-size: 2.2rem; background: var(--gradient-3); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-align: center; margin-top: 0; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 0.5em;
+        }
+        h2 { font-size: 1.6rem; border-left: 4px solid; border-image: var(--gradient-2) 1; padding-left: 16px; margin: 1.5em 0 0.8em; }
+        ul { list-style: none; padding: 0; }
+        li { margin: 1em 0; }
+        a {
+            color: #a5b4fc; text-decoration: none; font-weight: 500; transition: all 0.3s;
+            display: inline-block; padding: 12px 24px; background: rgba(255,255,255,0.05); border-radius: 40px;
+            border: 1px solid var(--glass-border); width: 100%; text-align: center;
+        }
+        a:hover { background: rgba(102,126,234,0.3); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+        .login-overlay {
+            position: fixed; inset: 0; background: rgba(15,12,41,0.95); backdrop-filter: blur(30px);
+            display: flex; justify-content: center; align-items: center; z-index: 1000;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        .login-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .login-card {
+            background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
+            border-radius: 24px; padding: 48px 40px; width: 90%; max-width: 420px; box-shadow: var(--glass-shadow);
+            text-align: center;
+        }
+        .login-card h2 { font-size: 2rem; margin-bottom: 8px; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .login-subtitle { color: var(--text-muted); margin-bottom: 32px; }
+        .login-input {
+            width: 100%; padding: 16px 20px; margin-bottom: 20px; background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; color: var(--text-primary);
+            font-size: 1rem; outline: none; transition: all 0.3s;
+        }
+        .login-input:focus { background: rgba(255,255,255,0.1); border-color: rgba(102,126,234,0.6); box-shadow: 0 0 20px rgba(102,126,234,0.2); }
+        .login-btn {
+            width: 100%; padding: 16px; background: var(--gradient-1); color: white; border: none;
+            border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(102,126,234,0.4);
+        }
+        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(102,126,234,0.6); }
+        .error-msg { color: #ff6b6b; margin-top: 16px; padding: 12px; background: rgba(255,107,107,0.1); border-radius: 8px; border: 1px solid rgba(255,107,107,0.3); display: none; }
+    </style>
+</head>
+<body>
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+
+    <!-- Login Overlay (protège l'accès au sommaire) -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <h2>Accès au document</h2>
+            <p class="login-subtitle">Document géographique confidentiel (12 parties)</p>
+            <input type="password" id="passwordInput" class="login-input" placeholder="Mot de passe">
+            <button id="loginBtn" class="login-btn">Entrer</button>
+            <div id="errorMsg" class="error-msg">Mot de passe incorrect</div>
+        </div>
+    </div>
+
+    <div class="main-wrapper" id="mainContent" style="display: none;">
+        <div class="glass-container">
+            <h1>Géographie · Document intégral</h1>
+            <p style="text-align: center; margin-bottom: 2em;">Le document original a été divisé en 12 parties pour faciliter la consultation. Chaque partie contient le texte exact des pages correspondantes, enrichi de compléments explicatifs.</p>
+            <h2>Sommaire des parties</h2>
+            <ul>
+                <li><a href="part1.html">Partie 1 – Atmosphère (pages 1–3)</a></li>
+                <li><a href="part2.html">Partie 2 – Hydrosphère et océanisation (pages 3–6)</a></li>
+                <li><a href="part3.html">Partie 3 – Environnement et écologie (pages 9–14)</a></li>
+                <li><a href="part4.html">Partie 4 – Cycles biogéochimiques et sol (pages 14–20)</a></li>
+                <li><a href="part5.html">Partie 5 – Cartographie (pages 20–22)</a></li>
+                <li><a href="part6.html">Partie 6 – Initiation aux faits économiques et sociaux (pages 22–29)</a></li>
+                <li><a href="part7.html">Partie 7 – Épistémologie de la géographie (pages 29–36)</a></li>
+                <li><a href="part8.html">Partie 8 – Lithosphère et géomorphologie (pages 36–38)</a></li>
+                <li><a href="part9.html">Partie 9 – Mondialisation et Trente Glorieuses (pages 38–42)</a></li>
+                <li><a href="part10.html">Partie 10 – Géographie rurale et agriculture tropicale (pages 42–49)</a></li>
+                <li><a href="part11.html">Partie 11 – Géographie urbaine (pages 49–54)</a></li>
+                <li><a href="part12.html">Partie 12 – Examens et exercices (pages 55–61)</a></li>
+            </ul>
+            <p style="margin-top: 2em; font-style: italic; color: var(--text-muted);">Le mot de passe est unique pour toutes les parties (une seule saisie).</p>
+        </div>
+    </div>
+
+    <script>
+        const PASSWORD = "Armadel";
+        const loginOverlay = document.getElementById('loginOverlay');
+        const mainContent = document.getElementById('mainContent');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMsg = document.getElementById('errorMsg');
+
+        // Vérification auto si déjà authentifié
+        if (sessionStorage.getItem('auth') === PASSWORD) {
+            loginOverlay.classList.add('hidden');
+            mainContent.style.display = 'block';
+        }
+
+        function checkPassword() {
+            if (passwordInput.value === PASSWORD) {
+                sessionStorage.setItem('auth', PASSWORD);
+                loginOverlay.classList.add('hidden');
+                mainContent.style.display = 'block';
+            } else {
+                errorMsg.style.display = 'block';
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        }
+
+        loginBtn.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
+        passwordInput.addEventListener('input', () => { errorMsg.style.display = 'none'; });
+    </script>
+</body>
+</html>
