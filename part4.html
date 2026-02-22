@@ -1,0 +1,342 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Géographie · Partie 4 – Cycles biogéochimiques et sol</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* Mêmes styles que précédemment */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --glass-bg: rgba(255,255,255,0.08);
+            --glass-border: rgba(255,255,255,0.18);
+            --glass-shadow: 0 8px 32px rgba(0,0,0,0.37);
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255,255,255,0.9);
+            --text-muted: rgba(255,255,255,0.6);
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .bg-orb { position: fixed; border-radius: 50%; filter: blur(100px); opacity: 0.5; pointer-events: none; z-index: 0; animation: float 20s ease-in-out infinite; }
+        .bg-orb-1 { width: 600px; height: 600px; background: var(--gradient-1); top: -200px; left: -200px; }
+        .bg-orb-2 { width: 500px; height: 500px; background: var(--gradient-2); bottom: -150px; right: -150px; animation-delay: -7s; }
+        .bg-orb-3 { width: 400px; height: 400px; background: var(--gradient-3); top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: -14s; opacity: 0.3; }
+        @keyframes float {
+            0%,100%{ transform: translate(0,0) scale(1); }
+            33%{ transform: translate(30px,-30px) scale(1.05); }
+            66%{ transform: translate(-20px,20px) scale(0.95); }
+        }
+        .login-overlay {
+            position: fixed; inset: 0; background: rgba(15,12,41,0.95); backdrop-filter: blur(30px);
+            display: flex; justify-content: center; align-items: center; z-index: 1000;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        .login-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .login-card {
+            background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
+            border-radius: 24px; padding: 48px 40px; width: 90%; max-width: 420px; box-shadow: var(--glass-shadow);
+            text-align: center;
+        }
+        .login-card h2 { font-family: 'Crimson Pro', serif; font-size: 2rem; margin-bottom: 8px; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .login-subtitle { color: var(--text-muted); margin-bottom: 32px; }
+        .login-input {
+            width: 100%; padding: 16px 20px; margin-bottom: 20px; background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; color: var(--text-primary);
+            font-size: 1rem; outline: none; transition: all 0.3s;
+        }
+        .login-input:focus { background: rgba(255,255,255,0.1); border-color: rgba(102,126,234,0.6); box-shadow: 0 0 20px rgba(102,126,234,0.2); }
+        .login-btn {
+            width: 100%; padding: 16px; background: var(--gradient-1); color: white; border: none;
+            border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(102,126,234,0.4);
+        }
+        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(102,126,234,0.6); }
+        .error-msg { color: #ff6b6b; margin-top: 16px; padding: 12px; background: rgba(255,107,107,0.1); border-radius: 8px; border: 1px solid rgba(255,107,107,0.3); display: none; }
+
+        .main-wrapper { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 40px 20px; display: none; }
+        .main-wrapper.visible { display: block; animation: fadeIn 0.8s ease; }
+        @keyframes fadeIn { from{ opacity:0; transform:translateY(20px); } to{ opacity:1; transform:translateY(0); } }
+        .glass-container {
+            background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
+            border-radius: 28px; padding: 50px; box-shadow: var(--glass-shadow);
+        }
+        h1, h2, h3 { font-family: 'Crimson Pro', serif; font-weight: 600; margin-top: 2em; margin-bottom: 0.8em; line-height: 1.3; }
+        h1 { font-size: 2.2rem; background: var(--gradient-3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; margin-top: 0; padding-bottom: 0.5em; border-bottom: 2px solid rgba(255,255,255,0.1); }
+        h2 { font-size: 1.6rem; color: var(--text-primary); padding-left: 16px; border-left: 4px solid; border-image: var(--gradient-2) 1; }
+        h3 { font-size: 1.3rem; color: var(--text-secondary); font-weight: 500; }
+        p { margin: 1em 0; color: var(--text-secondary); text-align: justify; }
+        ul, ol { margin: 1em 0 1em 2em; color: var(--text-secondary); }
+        li { margin: 0.6em 0; }
+        ul li::marker { color: #667eea; }
+        .page-break { margin: 3em 0; padding: 20px 0; text-align: center; font-family: 'Crimson Pro', serif; font-style: italic; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); position: relative; }
+        .page-break::before, .page-break::after { content: '◆'; position: absolute; top: 50%; transform: translateY(-50%); color: #667eea; font-size: 0.5rem; }
+        .page-break::before { left: 30%; } .page-break::after { right: 30%; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 2em; padding-top: 1em; border-top: 1px solid rgba(255,255,255,0.1); }
+        .nav-link { color: #a5b4fc; text-decoration: none; font-weight: 600; padding: 8px 16px; border: 1px solid var(--glass-border); border-radius: 40px; transition: all 0.3s; }
+        .nav-link:hover { background: rgba(102,126,234,0.3); transform: translateY(-2px); }
+        .complement {
+            background: rgba(255,255,255,0.03); border-left: 4px solid #4facfe; padding: 16px 20px; margin: 1.5em 0; border-radius: 12px;
+            font-style: italic; color: var(--text-secondary); box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .complement strong { color: #4facfe; font-weight: 600; }
+        ::selection { background: rgba(102,126,234,0.4); color: white; }
+        @media (max-width: 768px) { .glass-container { padding: 30px 20px; } h1 { font-size:1.7rem; } h2 { font-size:1.3rem; } .page-break::before, .page-break::after { display:none; } }
+    </style>
+</head>
+<body>
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+
+    <!-- Login Overlay -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <h2>Accès au document</h2>
+            <p class="login-subtitle">Partie 4 – Cycles biogéochimiques et sol</p>
+            <input type="password" id="passwordInput" class="login-input" placeholder="Mot de passe">
+            <button id="loginBtn" class="login-btn">Entrer</button>
+            <div id="errorMsg" class="error-msg">Mot de passe incorrect</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-wrapper" id="mainContent">
+        <div class="glass-container">
+            <!-- Navigation -->
+            <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+                <a href="index.html" class="nav-link">🏠 Sommaire</a>
+                <a href="part3.html" class="nav-link">⬅ Partie précédente</a>
+                <a href="part5.html" class="nav-link">➡ Partie suivante</a>
+            </div>
+
+            <!-- Contenu original des pages 14 à 20 -->
+            <!-- Rappel : la page 14 commence avec la fin du cycle du carbone -->
+            <div class="page-break">Page 14</div>
+            <ol start="7">
+                <li>Échange avec l'océan : L'océan absorbe et libère du CO2 atmosphérique à travers des processus physiques et biologiques, influençant l'équilibre du CO2 dans l'atmosphère.</li>
+            </ol>
+            <p>Le cycle du carbone régule la concentration de CO2 dans l'atmosphère, un gaz à effet de serre crucial pour le climat terrestre. Les perturbations humaines, telles que la combustion de combustibles fossiles et les changements d'utilisation des terres, ont perturbé ce cycle, entraînant une augmentation des concentrations de CO2 atmosphérique et des implications potentielles pour le changement climatique global.</p>
+            <p>Le carbone peut être présent sous forme minérale et sous forme organique, chacune jouant un rôle distinct dans les cycles biogéochimiques et dans les processus naturels de la biosphère :</p>
+            <h2>CARBONE SOUS FORME MINERALE</h2>
+            <p>Définition : Le carbone sous forme minérale se trouve principalement sous forme inorganique, c'est-à-dire sous forme de composés qui ne sont pas directement liés à des structures organiques vivantes.</p>
+            <h2>Caractéristiques et Exemples :</h2>
+            <ol>
+                <li>Dioxyde de Carbone (CO2) : C'est la forme la plus courante de carbone minéral dans l'atmosphère. Le CO2 est essentiel pour la photosynthèse des plantes, où il est absorbé et utilisé pour produire des glucides.</li>
+                <li>Carbonates (CO3²-): Les carbonates sont des sels minéraux présents dans les roches, tels que le calcaire, qui peuvent se dissoudre dans l'eau et être utilisés par les organismes marins pour la construction de coquilles et de squelettes.</li>
+                <li>Bicarbonates (HCO3-): Ces ions se trouvent également dans l'eau, jouant un rôle dans la régulation du pH des sols et des océans.</li>
+            </ol>
+            <h2>CARBONE SOUS FORME ORGANIQUE</h2>
+            <p>Définition : Le carbone sous forme organique est intégré dans des structures organiques complexes, telles que celles trouvées dans les composants biologiques des êtres vivants.</p>
+            <h2>Caractéristiques et Exemples :</h2>
+            <ol>
+                <li>Composés Organiques : Le carbone organique se retrouve dans une grande variété de composés biologiques tels que les glucides, les lipides, les protéines, et les acides nucléiques (ADN et ARN). Ces composés sont essentiels à la structure et à la fonction des cellules et des tissus vivants.</li>
+                <li>Biomasse : La biomasse représente la quantité totale de matière organique produite par les plantes et autres producteurs primaires via la photosynthèse. Elle forme la base de la chaîne alimentaire et est essentielle pour la nutrition des consommateurs herbivores et carnivores.</li>
+            </ol>
+            <h2>IMPORTANCE ET INTERACTIONS</h2>
+            <p>• Cycles Biogéochimiques : Le carbone circule entre les formes minérales et organiques via des processus comme la photosynthèse, la respiration, la décomposition, et la fossilisation. Ces cycles régulent la disponibilité du carbone dans les écosystèmes et influencent le climat global à travers la régulation des niveaux de CO2 atmosphérique.</p>
+            <p>• Rôles Écologiques : Le carbone minéral et organique soutient la structure et la fonction des écosystèmes terrestres et marins, en fournissant des nutriments essentiels pour la croissance des plantes et en influençant la chimie des sols et des océans.</p>
+            <p>Les quatre principaux réservoirs du carbone, où le carbone est stocké à l'échelle mondiale, sont :</p>
+            <ol>
+                <li>L'atmosphère : C'est le réservoir de carbone le plus visible et le plus immédiatement influencé par les activités humaines. Il contient principalement du dioxyde de carbone (CO2) résultant de la respiration des organismes, de la combustion des combustibles fossiles, et de la déforestation.</li>
+            </ol>
+
+            <div class="complement">
+                <strong>📚 Complément – Les réservoirs de carbone</strong><br>
+                Les principaux réservoirs de carbone sont, par ordre décroissant de stock : les océans (38 000 GtC), les sédiments et roches carbonatées (60 000 à 100 000 GtC), les combustibles fossiles (4 000 GtC), la biomasse terrestre (600 GtC), l’atmosphère (900 GtC). Les échanges entre ces réservoirs sont rapides (atmosphère ↔ biosphère) ou très lents (formation de roches). (Source : « Le cycle du carbone », CNRS, 2020)
+            </div>
+
+            <div class="page-break">Page 15</div>
+            <ol start="2">
+                <li>Les Océans : Les océans absorbent une quantité importante de CO2 atmosphérique, jouant un rôle crucial dans la régulation des niveaux de CO2 dans l'atmosphère. Le carbone dissous dans l'eau de mer est également utilisé par les organismes marins pour la construction de coquilles et de squelettes calcaires. 3. La Biosphère Terrestre : Ce réservoir inclut la biomasse des plantes, des arbres, des sols, et d'autres matières organiques vivantes. Les plantes absorbent le CO2 de l'atmosphère via la photosynthèse et stockent le carbone dans leurs tissus. La décomposition des matières organiques mortes libère également du carbone dans les sols. 4. Les Sols : Les sols sont un réservoir important de carbone organique, stockant une quantité significative de carbone sous forme de matière organique morte et de produits de décomposition. Ce carbone est principalement fixé dans le sol par les racines des plantes et est libéré dans l'atmosphère par des processus comme l'érosion, la déforestation, et la gestion agricole.</li>
+            </ol>
+            <p>Le flux de carbone entre l'atmosphère et la biosphère, principalement à travers la végétation, est un processus clé dans le cycle global du carbone. Voici comment ce flux s'opère :</p>
+            <h2>FLUX DE CARBONE DE L'ATMOSPHERE VERS LA BIOSPHERE (VEGETATION)</h2>
+            <h2>1. Absorption de CO2 par la Photosynthèse :</h2>
+            <p>o Les plantes, arbres, et autres producteurs primaires absorbent le dioxyde de carbone (CO2) atmosphérique par les stomates présents sur leurs feuilles.</p>
+            <p>o Le CO2 est essentiel pour la photosynthèse, où il est utilisé pour produire des glucides (comme le glucose) et d'autres composés organiques, en utilisant l'énergie solaire captée par la chlorophylle.</p>
+            <h2>2. Conversion en Biomasse :</h2>
+            <p>o Le carbone absorbé est incorporé dans la structure des plantes, formant de la biomasse végétale (comme des feuilles, des tiges, des racines).</p>
+            <p>o Une partie de ce carbone est utilisée pour la croissance et le développement des plantes, tandis que le reste est stocké temporairement dans les tissus végétaux.</p>
+            <h2>FLUX DE CARBONE DE LA BIOSPHERE (VEGETATION) VERS L'ATMOSPHERE</h2>
+            <h2>1. Respiration Végétale :</h2>
+            <p>o Les plantes respirent également, libérant du CO2 dans l'atmosphère à travers un processus appelé respiration.</p>
+            <p>o Ce processus est une partie nécessaire du métabolisme végétal, où le carbone stocké sous forme de glucides est oxydé pour libérer de l'énergie utilisable par la plante.</p>
+            <h2>2. Décomposition :</h2>
+            <p>o Lorsque les plantes meurent, leurs matières organiques se décomposent par l'action des décomposeurs tels que les bactéries et les champignons.</p>
+            <p>o Ce processus de décomposition libère du CO2 dans l'atmosphère, revenant ainsi le carbone absorbé précédemment par les plantes à l'atmosphère.</p>
+            <h2>IMPORTANCE DU FLUX DE CARBONE ATMOSPHERE-BIOSPHERE</h2>
+            <p>• Régulation du CO2 Atmosphérique : Le flux de carbone entre l'atmosphère et la biosphère joue un rôle crucial dans la régulation des niveaux de dioxyde de carbone atmosphérique. Les plantes absorbent une quantité importante de CO2 de l'atmosphère, contribuant à la réduction de l'effet de serre et à la régulation du climat.</p>
+            <p>• Cycle du Carbone : Ce flux fait partie intégrante du cycle global du carbone, où le carbone est constamment recyclé entre les réservoirs atmosphérique, terrestre, et océanique via des processus comme la photosynthèse, la respiration, et la décomposition.</p>
+            <p>• Soutien des Écosystèmes : La végétation joue un rôle essentiel dans la production primaire des écosystèmes terrestres, fournissant de la nourriture et de l'habitat pour les animaux, régulant le cycle de l'eau, et contribuant à la fertilité des sols.</p>
+            <p>En résumé, le flux de carbone entre l'atmosphère et la biosphère à travers la végétation est un processus dynamique qui affecte non seulement les écosystèmes locaux mais aussi le climat global. Son étude est crucial</p>
+
+            <div class="complement">
+                <strong>📚 Complément – Puits de carbone et changement climatique</strong><br>
+                Les forêts tropicales et les océans constituent les principaux puits de carbone naturels. La déforestation et le réchauffement des océans réduisent leur capacité d’absorption, accélérant l’accumulation de CO₂ dans l’atmosphère. Les solutions fondées sur la nature (reforestation, agroforesterie) sont essentielles pour atténuer le changement climatique. (Source : GIEC, 2022)
+            </div>
+
+            <div class="page-break">Page 16</div>
+            <p>TSY AZO ADIKA NA ALAIN-TAHAKA 2024-2025</p>
+            <p>17<br>RESPONSABLE : RANDRIAMANANTSOA Manambina JASIELA<br>pour comprendre et gérer les impacts du changement climatique et des activités humaines sur les écosystèmes<br>terrestres.<br>Le flux de carbone entre l'atmosphère et la lithosphère, principalement par le biais de processus géologiques, est<br>un élément clé du cycle global du carbone. Voici comment ce flux s'opère :<br>FLUX DE CARBONE DE L'ATMOSPHERE VERS LA LITHOSPHERE<br>1. Fixation du Carbone Atmosphérique :<br>o<br>Une partie du CO2 atmosphérique est absorbée par les océans et par les précipitations, formant<br>de l'acide carbonique (H2CO3), qui contribue à l'altération chimique des roches.<br>2. Altération Chimique des Roches :<br>o<br>L'acide carbonique dissout les minéraux carbonatés présents dans les roches, comme le<br>calcium et le magnésium, formant des bicarbonates solubles dans l'eau.<br>3. Formation de Sédiments :<br>o<br>Les ions bicarbonates sont transportés par les eaux de ruissellement vers les océans, où ils sont<br>utilisés par les organismes marins pour construire des coquilles et des squelettes calcaires.<br>o<br>Lorsque ces organismes meurent, leurs coquilles et squelettes se déposent au fond de l'océan,<br>formant des sédiments riches en carbonate de calcium (CaCO3).<br>FLUX DE CARBONE DE LA LITHOSPHERE VERS L'ATMOSPHERE<br>1. Libération par les Volcans :<br>o<br>Les volcans émettent du CO2 et d'autres gaz lors des éruptions, libérant le carbone stocké dans<br>les roches profondes de la lithosphère dans l'atmosphère.<br>2. Décomposition des Sédiments :<br>o<br>Les sédiments contenant du carbonate de calcium peuvent être soulevés à la surface terrestre<br>par des processus tectoniques et météorologiques.<br>o<br>Lorsque ces sédiments sont exposés à l'érosion et à la météorisation, le carbonate de calcium<br>est décomposé, libérant du CO2 dans l'atmosphère.<br>IMPORTANCE DU FLUX DE CARBONE ATMOSPHERE-LITHOSPHERE<br><br>Régulation du CO2 Atmosphérique : Le flux de carbone entre l'atmosphère et la lithosphère joue un<br>rôle crucial dans le maintien de l'équilibre du CO2 atmosphérique. Les processus d'altération des roches<br>et de formation de sédiments marins contribuent à long terme au stockage du carbone, aidant à réguler<br>les niveaux de CO2 dans l'atmosphère.<br><br>Cycle Géochimique : Ce flux fait partie intégrante du cycle géochimique du carbone, où le carbone est<br>constamment échangé entre la surface terrestre et l'atmosphère par des processus naturels à grande<br>échelle.<br><br>Influence sur le Climat et l'Environnement : Les variations dans les flux de carbone entre<br>l'atmosphère et la lithosphère peuvent influencer le climat global à travers la régulation des gaz à effet<br>de serre et des niveaux de CO2, affectant ainsi les écosystèmes terrestres et marins.<br>En résumé, le flux de carbone entre l'atmosphère et la lithosphère est un processus complexe et dynamique qui<br>joue un rôle crucial dans le maintien de l'équilibre écologique de la planète et dans la régulation du climat global<br>à travers les âges géologiques.<br>Le flux de carbone entre l'atmosphère et l'hydrosphère est un processus vital du cycle global du carbone,<br>influençant à la fois le climat et les écosystèmes aquatiques. Voici comment ce flux s'opère :<br>FLUX DE CARBONE DE L'ATMOSPHERE VERS L'HYDROSPHERE<br>1. Absorption de CO2 par les Océans :<br>o<br>Une grande quantité de dioxyde de carbone (CO2) atmosphérique est absorbée par les océans à<br>la surface de l'eau.<br>o<br>Le CO2 dissous réagit avec l'eau pour former de l'acide carbonique (H2CO3), qui peut ensuite<br>se dissocier en ions bicarbonates (HCO3⁻) et carbonates (CO3²⁻).</p>
+
+            <div class="complement">
+                <strong>📚 Complément – L’acidification des océans</strong><br>
+                L’absorption du CO₂ par les océans augmente leur acidité (baisse du pH). Depuis le début de l’ère industrielle, le pH des océans a diminué de 0,1 unité, soit une augmentation de 30 % de l’acidité. Cela menace les organismes calcifiants (coraux, mollusques, plancton) dont les coquilles se dissolvent. (Source : « L’océan dans le changement climatique », CNRS, 2021)
+            </div>
+
+            <div class="page-break">Page 17</div>
+            <p>2. Incorporation dans les Organismes Marins :  Les organismes marins, comme les coraux, les mollusques et les phytoplanctons, utilisent les ions bicarbonates et carbonates pour construire leurs coquilles et leurs squelettes calcaires, constitués principalement de carbonate de calcium (CaCO3). 3. Sédimentation des Coquilles et des Squelettes :  Lorsque ces organismes meurent, leurs coquilles et leurs squelettes tombent au fond de l'océan et peuvent se transformer en roches calcaires à long terme, stockant ainsi du carbone dans la lithosphère marine.</p>
+            <h2>FLUX DE CARBONE DE L'HYDROSPHERE VERS L'ATMOSPHERE</h2>
+            <h2>1. Déqazage et Ébullition :</h2>
+            <p>o Les océans libèrent du CO2 dans l'atmosphère par des processus de dégazage et d'ébullition, où le CO2 dissous dans l'eau est libéré dans l'air, principalement dans les régions tropicales et tempérées.</p>
+            <h2>2. Respiration Aquatique :</h2>
+            <p>o Les organismes vivant dans l'eau, y compris les poissons, les bactéries et les planctons, respirent et libèrent du CO2 dans l'eau, qui peut ensuite être libéré dans l'atmosphère.</p>
+            <h2>IMPORTANCE DU FLUX DE CARBONE ATMOSPHERE-HYDROSPHERE</h2>
+            <p>• Régulation du CO2 Atmosphérique : Le flux de carbone entre l'atmosphère et l'hydrosphère joue un rôle crucial dans la régulation des niveaux de dioxyde de carbone (CO2) dans l'atmosphère, influençant ainsi le climat global et les cycles biogéochimiques.</p>
+            <p>• Influence sur les Écosystèmes Aquatiques : Les processus d'absorption et de libération de CO2 par les océans influencent la chimie de l'eau et la santé des écosystèmes marins, affectant la biodiversité et la productivité des océans.</p>
+            <p>• Effets du Changement Climatique : Les variations dans le flux de carbone entre l'atmosphère et l'hydrosphère peuvent avoir des implications importantes sur le réchauffement climatique et l'acidification des océans, affectant ainsi les habitats marins et les cycles biogéochimiques globaux.</p>
+            <p>En conclusion, le flux de carbone entre l'atmosphère et l'hydrosphère est un processus complexe qui relie étroitement les systèmes terrestres et marins, jouant un rôle crucial dans la régulation de l'équilibre écologique de la planète et dans la réponse globale au changement climatique.</p>
+            <p>Le sol</p>
+            <h2>1. Définition du sol et types de sols</h2>
+            <h2>1-DEFINITION :</h2>
+            <p>Le sol c’est la formation meuble développée sur la partie superficielle de l’écorce terrestre .Une couche superficielle de la croute terrestre et une  composante essentielle  de la biosphère, résultant par l’altération des roches mère et des matières organiques .Il sert de support à la vie végétale et abrite des nombreux organismes vivants.</p>
+            <h2>Types de sols :</h2>
+            <p>• Sol argileux : Composé principalement de particules d'argile, il retient bien l'eau mais peut être mal drainé et compact.</p>
+            <p>• Sol sableux : Composé principalement de particules de sable, il se draine rapidement mais retient peu l'eau et les nutriments.</p>
+            <p>• Sol limoneux : Contient une proportion équilibrée de sable, de limon et d'argile, offrant une bonne capacité de rétention d'eau et de nutriments.</p>
+
+            <div class="complement">
+                <strong>📚 Complément – Le triangle des textures</strong><br>
+                La classification des sols repose sur les proportions relatives de sable, limon et argile. Le triangle des textures permet de déterminer le type de sol (ex. limon argilo-sableux). Chaque texture influence la perméabilité, la rétention d’eau et la fertilité. (Source : « Pédologie générale », Denis Baize, 2020)
+            </div>
+
+            <div class="page-break">Page 18</div>
+            <p> Sol humifère : Riche en matière organique décomposée (humus), il est fertile et retient bien l'eau.  Sol calcaire : Contient une forte proportion de carbonate de calcium, il est souvent alcalin et peut être pauvre en nutriments disponibles.  Sol acide : Sol avec un pH bas, souvent en raison de la présence de matière organique acide ou de minéraux acides.</p>
+            <h2>4. Röles de la texture et de la structure du sol</h2>
+            <p>Texture du sol : La texture du sol est déterminée par la proportion dimensionnelle des éléments constitutifs du sol après la destruction des agrégats (sable, limon, et argile. Elle influence plusieurs aspects cruciaux :</p>
+            <p>•  RétenƟon d'eau : Les sols argileux retiennent plus d'eau que les sols sableux.</p>
+            <p>•  Aération : Les sols sableux sont mieux aérés que les sols argileux, facilitant la respiration des racines.</p>
+            <p>• Fertilité : Les sols avec une bonne proportion de limon et de matière organique tendent à être plus fertiles.</p>
+            <p>Structure du sol : La structure du sol se réfère à l'arrangement des particules de sol en agrégats. Elle affecte :</p>
+            <p>• Infiltration de l'eau : Les sols bien structurés permettent une meilleure infiltration et drainage de l'eau, réduisant les risques d'érosion.</p>
+            <p>• Aération et pénétration des racines : Une bonne structure permet aux racines de pénétrer plus facilement et d'accéder aux nutriments et à l'eau.</p>
+            <p>• Érrosion : Les sols avec une structure stable résistent mieux à l'érosion par le vent et l'eau.</p>
+            <h2>PROCESSUS DE FORMATION DU SOL</h2>
+            <p>La formation du sol est un processus complexe et dynamique qui se déroule sur de longues périodes et implique plusieurs étapes clés :</p>
+            <h2>I. ALTERATION DE LA ROCHE MERE</h2>
+            <h2>Altération physique :</h2>
+            <p>• Définition : La roche mère se désintègre en particules plus petites à travers des processus mécaniques comme l'érosion par le vent, l'eau, et les variations de température.</p>
+            <p>• Exemples : Fragmentation par le gel et le dégel, abrasion par le vent, et fissuration due à l'expansion thermique.</p>
+            <h2>Altération chimique :</h2>
+            <p>• Définition : Les réactions chimiques transforment les minéraux de la roche mère en de nouvelles substances.</p>
+            <p>• Exemples : L'hydrolyse (réaction avec l'eau), l'oxydation (réaction avec l'oxygène), et la dissolution (solubilisation des minéraux dans l'eau).</p>
+            <p>Ces processus réduisent la roche mère en particules de différentes tailles et compositions, formant la base minérale du sol.</p>
+            <h2>2. ACTIVITES BIOLOGIQUES ET APORTS DE MATIERE ORGANIQUE</h2>
+            <h2>Colonisation biologique :</h2>
+            <p>• Définition : Les organismes vivants (plantes, micro-organismes, animaux) colonisent le substrat minéral.</p>
+            <p>• Exemples : Les lichens et les mousses s'installent sur la roche nue, sécrètent des acides organiques qui accélèrent l'altération chimique, et initient la formation de la matière organique.</p>
+
+            <div class="complement">
+                <strong>📚 Complément – Facteurs de formation du sol (climato-séquence)</strong><br>
+                La pédogenèse dépend de cinq facteurs : le climat (température, précipitations), le matériau parental (roche mère), les organismes vivants, le relief (topographie) et le temps. Ces facteurs, combinés, produisent des sols très variés. (Source : « Facteurs de formation des sols », Hans Jenny, 1941, rééd. 2018)
+            </div>
+
+            <div class="page-break">Page 19</div>
+            <p>Apports de matière organique : 	• 	Définition : La matière organique s'accumule à partir des restes de plantes et d'animaux morts, ainsi que des excréments. 	• 	Exemples : Feuilles mortes, bois en décomposition, et cadavres d'animaux. 	Décomposition : 	• 	Définition : Les micro-organismes et les décomposeurs (bactéries, champignons, vers de terre) dégradent la matière organique en humus. 	• 	Rôle de l'humus : L'humus améliore la structure du sol, augmente sa capacité de rétention d'eau et de nutriments, et favorise la vie microbienne. 3. MECANISME DE MISE EN PLACE DES HORIZONS 	Horizons du sol : Les sols se développent en couches distinctes appelées horizons, formant le profil du sol. Les principaux horizons sont : 	• 	Horizons AO (organique) : Couche supérieure riche en matière organique non décomposée (litière). 	• 	Horizons AI (humifère) : Couche supérieure où se mélange matière organique et minérale. C'est la zone de forte activité biologique et de décomposition. 	• 	Horizons E ou HA (éluval) : Zone de lessivage où les minéraux et les matières organiques sont lessivés vers les horizons inférieurs, souvent plus clair en couleur. 	• 	Horizons B (illuviation) : Zone d'accumulation des matériaux lessivés (Colloïde argileuses, Fe2 O3, matière organique). 	• 	Horizons C (altération) : Couche de matériau peu altéré proche de la roche mère. Il est composé par des roches pourries, altérés et forme « arène »(horizon fantômes) 	• 	Horizons R (roche mère) : Roche non altérée sous-jacente. 	CARTOGRAPHIE 	INITIATION A LA CARTOGRAPHIE 	PARTIE I : LECTURE DE CARTE 	Apprenant capable de : 	• 	-comprendre ,interpréter , et commenter un document cartographique 	• 	Manipuler ,exploiter et utiliser un document cartographique 	La cartographie fait partie de la géographie 	PARTIE II : LES OUTILS MANIPULE, EXPLOITES EN GEO 	Le terrain : c’est le plus indispensable : 	-pour recueillir les information (réalités ,faits ,phénomènes ,donnés ,situation….géographique) 	-pour observer l’ information visible(le travaux sur le terrain ) 	-pour enquêter l’information invisible 	Le texte : le plus accessible et le plus utilisé 	Les graphiques : dont la carte :les figures ( camembert, histogramme ,courbe à baton ,pyramide )</p>
+            <p> Le texte : le plus accessible et le plus utilisé  Les graphiques : dont la carte :les figures ( camembert, histogramme ,courbe à baton ,pyramide )</p>
+
+            <div class="complement">
+                <strong>📚 Complément – Les horizons du sol</strong><br>
+                La description des horizons est normalisée par la classification WRB (World Reference Base). Les horizons O (organiques), A (minéraux de surface), E (éluviaux), B (illuviaux), C (altération), R (roche dure) sont universels. L’épaisseur et la composition varient selon les conditions climatiques et biologiques. (Source : « Référentiel pédologique », AFES, 2022)
+            </div>
+
+            <div class="page-break">Page 20</div>
+            <p> La statistiques et les tableaux  Les imageries :photographie numerique et analogique aérienne (images saelites)  Les documents sonores</p>
+            <h2>PARTIE III :OU’EST-CE OUE LA CARTOGRAPHIE ?</h2>
+            <h2>Associations des cartographe internationale :</h2>
+            <p> La cartographie est l’ ensemble des études et des opérations scientifiques et technique ,intervenant à partir des résultats d’opération directes ou de l’exploitation d’ une documentation.</p>
+            <p>En vue de l’ élaboration de l’ établissement de carte planes et autre mode d’ expression ainsi que dans leur utilisation .</p>
+            <p> La cartographie c’est l’étude et la conception d’une carte géographique .</p>
+            <ol>
+                <li>ETUDIER UNE CARTE =lire une carte =décolor les message et le commenter</li>
+                <li>Concevoir une carte =</li>
+            </ol>
+            <p>Représenter une réalité ,pour faire passer les messages .</p>
+            <p>Résumé ou illustré ce qu’on a écrit dans le texte</p>
+            <p>Développer ou présenter ce qu’on arrive à décrire fidèlement à travers le texte .</p>
+            <p> La cartographie désigne la réalisation et l’ étude des cartes géographiques Elle est très dépendante de la géodesie</p>
+            <p>CITEZ ET DEFINISSEZ LES DIFFERENTS TYPES DE CARTE UTILISES POUR ILLUSTRER DES PHENOMENE GEOGRAPHIQUE</p>
+            <p>Il existe plusieurs types de cartes utilisées pour illustrer des phénomènes géographiques. Voici les principaux types et leurs définitions :</p>
+            <h2>1. Carte topographique :</h2>
+            <p>o Définition : Représente en détail les reliefs et les caractéristiques physiques d'une région, incluant les montagnes, les vallées, les cours d'eau, les forêts, les routes, les bâtiments, etc.</p>
+            <p>o Usage : Utilisée pour des activités comme la randonnée, la planification urbaine, et les études environnementales.</p>
+            <h2>2. Carte thématique :</h2>
+            <p>o Définition : Se concentre sur un thème spécifique ou un phénomène particulier, comme la répartition de la population, le climat, les précipitations, la végétation, etc.</p>
+            <p>o Usage : Utilisée pour analyser et visualiser des données spécifiques, comme les taux de chômage, les zones de risque sismique, ou les cultures agricoles.</p>
+            <h2>3. Carte géologique :</h2>
+            <p>o Définition : Montre la composition et la structure des formations géologiques à la surface de la Terre, incluant les types de roches et les failles.</p>
+            <p>o Usage : Utilisée en géologie, exploration minière, gestion des ressources naturelles, et études environnementales.</p>
+            <h2>4. Carte climatique :</h2>
+            <p>o Définition : Illustre les zones climatiques, les régimes de précipitations, les températures, et d'autres variables météorologiques.</p>
+            <p>o Usage : Utilisée en climatologie, agriculture, et études environnementales pour comprendre et prévoir les conditions climatiques.</p>
+            <h2>5. Carte de distribution :</h2>
+            <p>o Définition : Représente la distribution spatiale de différents phénomènes ou éléments, comme les espèces animales et végétales, les ressources naturelles, ou les équipements et infrastructures.</p>
+            <p>o Usage : Utilisée en écologie, gestion des ressources naturelles, et planification urbaine.</p>
+            <h2>6. Carte choroplèthe :</h2>
+            <p>o Définition : Utilise des variations de couleur ou de teinte pour montrer les différences dans les valeurs d'une variable donnée à travers différentes régions ou unités géographiques.</p>
+            <p>o Usage : Couramment utilisée pour illustrer des données démographiques, économiques, ou sociales, comme les taux de chômage ou les revenus moyens par région.</p>
+
+            <!-- Navigation -->
+            <div class="navigation">
+                <a href="index.html" class="nav-link">🏠 Sommaire</a>
+                <a href="part3.html" class="nav-link">⬅ Partie précédente</a>
+                <a href="part5.html" class="nav-link">➡ Partie suivante</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PASSWORD = "Armadel";
+        const loginOverlay = document.getElementById('loginOverlay');
+        const mainContent = document.getElementById('mainContent');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMsg = document.getElementById('errorMsg');
+
+        if (sessionStorage.getItem('auth') === PASSWORD) {
+            loginOverlay.classList.add('hidden');
+            mainContent.classList.add('visible');
+        }
+
+        function checkPassword() {
+            if (passwordInput.value === PASSWORD) {
+                sessionStorage.setItem('auth', PASSWORD);
+                loginOverlay.classList.add('hidden');
+                mainContent.classList.add('visible');
+            } else {
+                errorMsg.style.display = 'block';
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        }
+
+        loginBtn.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
+        passwordInput.addEventListener('input', () => { errorMsg.style.display = 'none'; });
+    </script>
+</body>
+</html>

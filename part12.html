@@ -1,0 +1,279 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Géographie · Partie 12 – Examens et exercices</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --glass-bg: rgba(255,255,255,0.08);
+            --glass-border: rgba(255,255,255,0.18);
+            --glass-shadow: 0 8px 32px rgba(0,0,0,0.37);
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255,255,255,0.9);
+            --text-muted: rgba(255,255,255,0.6);
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .bg-orb { position: fixed; border-radius: 50%; filter: blur(100px); opacity: 0.5; pointer-events: none; z-index: 0; animation: float 20s ease-in-out infinite; }
+        .bg-orb-1 { width: 600px; height: 600px; background: var(--gradient-1); top: -200px; left: -200px; }
+        .bg-orb-2 { width: 500px; height: 500px; background: var(--gradient-2); bottom: -150px; right: -150px; animation-delay: -7s; }
+        .bg-orb-3 { width: 400px; height: 400px; background: var(--gradient-3); top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: -14s; opacity: 0.3; }
+        @keyframes float {
+            0%,100%{ transform: translate(0,0) scale(1); }
+            33%{ transform: translate(30px,-30px) scale(1.05); }
+            66%{ transform: translate(-20px,20px) scale(0.95); }
+        }
+        .login-overlay {
+            position: fixed; inset: 0; background: rgba(15,12,41,0.95); backdrop-filter: blur(30px);
+            display: flex; justify-content: center; align-items: center; z-index: 1000;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        .login-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .login-card {
+            background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
+            border-radius: 24px; padding: 48px 40px; width: 90%; max-width: 420px; box-shadow: var(--glass-shadow);
+            text-align: center;
+        }
+        .login-card h2 { font-family: 'Crimson Pro', serif; font-size: 2rem; margin-bottom: 8px; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .login-subtitle { color: var(--text-muted); margin-bottom: 32px; }
+        .login-input {
+            width: 100%; padding: 16px 20px; margin-bottom: 20px; background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; color: var(--text-primary);
+            font-size: 1rem; outline: none; transition: all 0.3s;
+        }
+        .login-input:focus { background: rgba(255,255,255,0.1); border-color: rgba(102,126,234,0.6); box-shadow: 0 0 20px rgba(102,126,234,0.2); }
+        .login-btn {
+            width: 100%; padding: 16px; background: var(--gradient-1); color: white; border: none;
+            border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(102,126,234,0.4);
+        }
+        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(102,126,234,0.6); }
+        .error-msg { color: #ff6b6b; margin-top: 16px; padding: 12px; background: rgba(255,107,107,0.1); border-radius: 8px; border: 1px solid rgba(255,107,107,0.3); display: none; }
+
+        .main-wrapper { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 40px 20px; display: none; }
+        .main-wrapper.visible { display: block; animation: fadeIn 0.8s ease; }
+        @keyframes fadeIn { from{ opacity:0; transform:translateY(20px); } to{ opacity:1; transform:translateY(0); } }
+        .glass-container {
+            background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
+            border-radius: 28px; padding: 50px; box-shadow: var(--glass-shadow);
+        }
+        h1, h2, h3 { font-family: 'Crimson Pro', serif; font-weight: 600; margin-top: 2em; margin-bottom: 0.8em; line-height: 1.3; }
+        h1 { font-size: 2.2rem; background: var(--gradient-3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; margin-top: 0; padding-bottom: 0.5em; border-bottom: 2px solid rgba(255,255,255,0.1); }
+        h2 { font-size: 1.6rem; color: var(--text-primary); padding-left: 16px; border-left: 4px solid; border-image: var(--gradient-2) 1; }
+        h3 { font-size: 1.3rem; color: var(--text-secondary); font-weight: 500; }
+        p { margin: 1em 0; color: var(--text-secondary); text-align: justify; }
+        ul, ol { margin: 1em 0 1em 2em; color: var(--text-secondary); }
+        li { margin: 0.6em 0; }
+        ul li::marker { color: #667eea; }
+        .page-break { margin: 3em 0; padding: 20px 0; text-align: center; font-family: 'Crimson Pro', serif; font-style: italic; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); position: relative; }
+        .page-break::before, .page-break::after { content: '◆'; position: absolute; top: 50%; transform: translateY(-50%); color: #667eea; font-size: 0.5rem; }
+        .page-break::before { left: 30%; } .page-break::after { right: 30%; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 2em; padding-top: 1em; border-top: 1px solid rgba(255,255,255,0.1); }
+        .nav-link { color: #a5b4fc; text-decoration: none; font-weight: 600; padding: 8px 16px; border: 1px solid var(--glass-border); border-radius: 40px; transition: all 0.3s; }
+        .nav-link:hover { background: rgba(102,126,234,0.3); transform: translateY(-2px); }
+        .complement {
+            background: rgba(255,255,255,0.03); border-left: 4px solid #00f2fe; padding: 16px 20px; margin: 1.5em 0; border-radius: 12px;
+            font-style: italic; color: var(--text-secondary); box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .complement strong { color: #00f2fe; font-weight: 600; }
+        ::selection { background: rgba(102,126,234,0.4); color: white; }
+        @media (max-width: 768px) { .glass-container { padding: 30px 20px; } h1 { font-size:1.7rem; } h2 { font-size:1.3rem; } .page-break::before, .page-break::after { display:none; } }
+    </style>
+</head>
+<body>
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+
+    <!-- Login Overlay -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <h2>Accès au document</h2>
+            <p class="login-subtitle">Partie 12 – Examens et exercices</p>
+            <input type="password" id="passwordInput" class="login-input" placeholder="Mot de passe">
+            <button id="loginBtn" class="login-btn">Entrer</button>
+            <div id="errorMsg" class="error-msg">Mot de passe incorrect</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-wrapper" id="mainContent">
+        <div class="glass-container">
+            <!-- Navigation -->
+            <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+                <a href="index.html" class="nav-link">🏠 Sommaire</a>
+                <a href="part11.html" class="nav-link">⬅ Partie précédente</a>
+                <span class="nav-link" style="opacity:0.5;">➡ Fin</span>
+            </div>
+
+            <!-- Contenu original des pages 55 à 61 -->
+            <div class="page-break">Page 55</div>
+            <table>
+                <tr><td>LANNEE UNIVERSITAIRE 2019-2020<br>FLSH<br>MENTION GEOGRAPHIE<br>EXAMEN DE LITHOSPERE - SESSION<br>NORMALE<br>DEUX Questions OBLIGATOIRES<br>Première question (Note sur 10)<br>-Etapes à suivre pour réaliser un profil topographique (5 points)<br>-Etapes à suivre pour réaliser un profil géologique (5 points)<br>Deuxième question (Note sur 10)<br>- Donnez la définition des mots suivants :<br>-Relief de cuesta<br>-Phénomène de surimposition<br>-Géomorphologie dynamique<br>-Tectonique<br>-Terme morphologique pour indiquer un plateau en relief de cuesta<br>-Faille<br>-Plan stratigraphique supérieur<br>-Zone de subduction<br>-Synéclise<br>-Définition et schéma d'une surface de contact</td></tr>
+            </table>
+            <p>Université d'Antananarivo<br>Domaine Arts, Lettres et Sciences Humaines<br>Année Universitaire 2019-2020<br>Niveau :L1<br>EC: Hydrosphère<br>Deux questions obligatoires:<br>1. Ces dernières décennies, la connaissance des fonds marins et de leur origine a fait des progrès remarquables. Quels sont les différents moyens d'exploration utilisés par les chercheurs pour étudier ces immensités ?<br>2- Schématiser les différents éléments du relief sous-marin.</p>
+
+            <div class="complement">
+                <strong>📚 Complément – Exploration des fonds marins</strong><br>
+                Les moyens d'exploration sous-marine incluent : sonars multifaisceaux (cartographie bathymétrique), submersibles habités (Alvin, Nautile) et robots téléopérés (ROV), carottiers (prélèvements sédimentaires), et méthodes géophysiques (sismique réflexion). Ces outils ont permis de découvrir les dorsales, les sources hydrothermales et une biodiversité insoupçonnée. (Source : « Océans : exploration et enjeux », Ifremer, 2021)
+            </div>
+
+            <div class="page-break">Page 56</div>
+            <table>
+                <tr><td>E<br>N<br>V<br>I<br>R<br>O<br>N<br>M<br>E<br>T<br>U<br>R<br>B<br>A<br>I<br>N<br>SMENTION GEOGRAPHIE<br>Année universitaire : 2018-2019<br>L1<br>Session normale<br>Durée: 2 heures<br>ENVIRONNEMENT<br>1- Définir les termes suivants : (8pts)<br>Biotope.<br>Biocénose.<br>Facteur écologique. "<br>Amplitude écologique..<br>2- Expliquer les processus de formation du sol : (12pts)<br>Altération de la roche mère.<br>Activités biologiques et apports de matières organiques.<br>Mécanisme de mise en place des horizons.<br>Les types de sols.MENTION GEOGRAPHIE<br>Année universitaire : 2019-2020<br>L1<br>Session normale<br>Durée: 2 heures<br>ENVIRONNEMENT<br>1- Définir les termes suivants (8pts)<br>Compétition<br>Amplitude écologique<br>Humus<br>Minéralisation<br>2- expliquer le principe de base de la chaine alimentaire<br>3- définir les types de plantes selon leur besoin en lumière1- Définir : MEGAPOLE<br>2- Donner d'exemples:<br>une mégapole européenne<br>Une asiatique<br>Une africaine<br>3- Les villes millionnaires ont évolué dans le temps et dans l'espace depuis le XIXe siècle pourquoi ?<br>4- Qualité rédactionnelle de votre travailPlus de la moitié de la population mondiale actuelle se trouve dans les villes .En tenant compte de ce constat :<br>Le rythme d'urbanisation est-il pareil pour toutes les régions du globe ?Justifier votre réponse<br>Sinon quelles sont les conséquences sur le classement mondial</td></tr>
+            </table>
+
+            <div class="page-break">Page 57</div>
+            <table>
+                <tr><td>M<br>A<br>L<br>A<br>G<br>A<br>S<br>YUniversité d'Antananarivo<br>FACULTE DES LETTRES ET SCIENCES HUMAINES<br>MENTION GEOGRAPHIE LICENCE 1<br>MALAGASY<br>SESSION DE RATTRAPAGE<br>Année universitaire : 2022 - 2023<br>Durée : 2 heures<br>Miainga amin'ny fahalalàna azonao nandritra ny taom-pianarana sy ny fikarohana manokana<br>1- Ampitahao amin'ny antsoina hoe Angano ny antsoina hoe Fedra. (andalana 15 raha betsaka indrindra)<br>2-Omeo ny faribolana anankiray ao anin'ny fedran'ibonia, ka :<br>a)Tanisao ny singa marnorona ny faribolana,<br>b) Omeo ny eva dindon'ny faribolana,<br>c) Mbola mitoetra mandraka ankêhtriny ve, raha ny hevitrao, ny kolotsaina voalaza ao amin'ny b?<br>Hamarino amin'ny alalan'ny ohatra ny valin-teninaoUniversité d'Antananarivo<br>FACULTE DES LETTRES ET SCIENCES HUMAINES<br>MENTION GEOGRAPHIE<br>LICENCE 1<br>MALAGASY SESSION normale<br>Année universitaire : 2017-2018<br>Miainga amin'ny fahalalàna azonao nandritra ny taom-pianarana sy ny fikarohana manokana<br>1- Omeo ny lalan'ny zava-boary sy ny lalan'ny kolontsaina araka ny ahitana azy avy teo amin'ny Andriambahoaka atsimo, andrefana ,atsinanana ,avaratra ary andriambahoaka afovoan'ny tany .Hamarino ny valin-teninao<br>2- Manomeza faribona efatra 4 mampiseho ny ampahany amin'ny fizotry tantaran'Ibonia ka manomeza lohateny sy fanazavana momba azy tsirairay<br>3- Omeo ny hevitry ny anaean hoe IboniamasoboniamanoroArts, Lettres et Sciences Humaines<br>Mention Géographie Année Universitaire 2018-2019<br>Question 1: EC Aménagement de l'espace (sur 4 points)<br>Pourquoi dans L'aménagement du territoire, le territoire dont il s'agit est toujours un espace Administratif et politique ?<br>Question 2: EC Cartographie 1 (sur 4 points)<br>Citez et définissez les différents types de carte utilisés pour illustrer des phénomènes géographique-<br>- Les différentes politiques économiquesQuestion 3: EC Initiation aux faits économiques et sociaux (sur 12 points)<br>La politique économique:<br>- Définition<br>- Les objectifs<br>- Les différentes politiques économiques</td></tr>
+            </table>
+
+            <div class="page-break">Page 58</div>
+            <h2>ATMOSPHÈRE</h2>
+            <p>Domaine Arts, Lettreset Sciences Humaines</p>
+            <p>Mention Géographie</p>
+            <p>1-Donnez les définitions (10 points)</p>
+            <p>Gaz carbonique, Gaz à effet de serre,Chaleur latente,Celule de Hadley, Zone de convergence intertropicale</p>
+            <h2>EC ATMOSPHERE</h2>
+            <p>I-Études de thermodynamique de l’atmosphère (10 points)</p>
+            <p>Soit une particule d’air A dont la pression est de 900hPa et la température réelle de 21 °C. C’est une particule d’air humide non saturée dont la quantité de vapeur d’eau réellement contemue est de 10 g/kg d’air</p>
+            <p>I-Quelle est la capacité hygrométrique maximale de cette particule?</p>
+            <p>2Calculer son humidité relative</p>
+            <p>3-Quelle est sa température potentielle? po°C</p>
+            <p>4 Trouvez son point de condensation (pression, température, altitude)</p>
+            <p>§ Quelle est la température potentielle pseudo adiabatique du thermometre mouillé?</p>
+            <p>6 Quelle est la température pseudo adiabatique du thermomètre mouillé?</p>
+            <p>7:Trouvez la température du point de rosée.</p>
+            <p>8 Quelle est la température réelle de A à 850hPa et à 750hPa?</p>
+            <p>9-Pourquoi en haute altitude, les adiabatiques sèches et saturées sont-elles asymptotes?</p>
+            <p>EXERCICE ATMOSPHERE LI géographique</p>
+            <p>1)donnez les définitions des mots suivantes (10 points)</p>
+            <p>-Vapeur d’eau-Cellule de Ferre-Vent géostrophique-Gaz à effet de serre-lsobare</p>
+            <p>2) expliquez (5 points)</p>
+            <p>-Masse d’air instable-Masse d’air stable</p>
+            <p>3) quels sont les étapes ou les conditions pour qu’un masse d’air se condense? (5 points</p>
+
+            <div class="complement">
+                <strong>📚 Complément – Thermodynamique de l'atmosphère</strong><br>
+                Les exercices de thermodynamique atmosphérique utilisent des diagrammes comme l'émagramme ou le téphigramme pour suivre l'évolution d'une parcelle d'air. La température potentielle (θ) est la température qu'aurait une parcelle d'air si elle était ramenée adiabatiquement à 1000 hPa. Le point de rosée (Td) est la température à laquelle l'air devient saturé. (Source : « Météorologie générale », Jean-Pierre Chalon, 2019)
+            </div>
+
+            <div class="page-break">Page 59</div>
+            <p>2024- 2025</p>
+            <p>DEUX QUESTIONS OBLIGATORES: coefficient 1 duree 2h</p>
+            <p>1- cycle de l'eau ,2 - Méthode acoustique,3 Eléments constitutifs des marges continentales</p>
+            <p>4 Les courants marins,5 Capacité calorifique des eaux marines</p>
+            <p>Expliquez les mouvements de divergence des plaques</p>
+            <p>1- Appellations</p>
+            <p>2- Manifestations</p>
+            <p>3 Conséquences avec des schémas</p>
+            <p>ANNEE UNIVERSITAIRE 2019- 2020</p>
+            <p>MENTION GEOGRAPHIE</p>
+            <p>EXAMEN DE LITHOSPHERE ET Hydrophère</p>
+            <p>TOUTES LES QUESTIONS SONT OBLIGATOIRES</p>
+            <p>LITHOSPHERE</p>
+            <p>1- Plan détaille d'un commentaire de profil complet en relief continental (note sur 8)</p>
+            <p>1- Donner la definition des mots suivants (note sur ):</p>
+            <p>Roche métamorphique</p>
+            <p>Roche sédimentaires</p>
+            <p>Lithologie</p>
+            <p>HYDROSPHERE</p>
+            <p>Expliquer le cycle de l'eau (note sur 4)</p>
+            <p>Caractéristiques des marges continentales (note sur 4)</p>
+            <p>DEFINIR :pente, phénomène de capture, géomorphologie dynamique ,stratigraphie, pendage, relief de cuesta, roche sédimentaire</p>
+            <p>Schématisez : faille normal contraire, verticale conforme, échelle de résistance de roche avec deux succession couche du couche tendre</p>
+
+            <div class="page-break">Page 60</div>
+            <p>2024- 2025</p>
+            <p>ANNEE UNIVERSITAIRE 2023- 2024  ALSH  MENTION GEOGRAPHIE  EXAMEN DE LITHOSPHERE - SESSION NORMALE, Juillet 2024</p>
+            <p>DEUX GROUPES DE QUESTION OBLIGATOIRES</p>
+            <p>QUESTIONS I (10 points): Donner la definition des termes suivants: 1. Géomorphologie dynamique 2. Miroir de faille 3. Couches concordantes 4. Talweg 5. Pente</p>
+            <p>Donner la réponse: 6. Formule pour cacher le pendage 7. Terme topographique pour designer un revers 8. Que symbolise la lettre J sur le tableau chronologique de l'histoire géologique de la terre 9. Terme morphologique pour designer une plaine 10. Dessiner l'échelle graphique de 1/40 000 ème</p>
+            <p>QUESTION II (10 points) Commenter le profil sur les plans topographique, structural et morphologique</p>
+
+            <div class="page-break">Page 61</div>
+            <p>Université d'Antananarivo  Domaine Arts, Lettres et Sciences Humaines  Mention Géographie</p>
+            <p>EC ATMOSPHERE Session de repêchage du 1er août 2024 Durée : 2h Coefficient : 1</p>
+            <p>I- Donnez les définitions (10 points) Force de gradient de pression : Effet de serre Azote Chaleur sensible Dessinez les flux de la haute pression et de la basse pression de l'hémisphère sud (au sol)</p>
+            <p>Il- Etude thermodynamique de l’atmosphère (10 points) Soit une particule d’air A dont la pression est de 850hPa et la température réelle de 21°C. C’est une particule d’air humide non saturée dont la quantité de vapeur d’eau réellement contenue est de 10g de vapeur d’eau/kg d’air sec.</p>
+            <p>1- Quelle est la capacité hygrométrique maximale de cette particule d’air ?</p>
+            <p>2- Calculez son humidité relative</p>
+            <p>3- Quelle est sa température potentielle Ø ?</p>
+            <p>4- Trouvez son point de condensation (pression, température, altitude)</p>
+            <p>5- Quelle est la température potentielle pseudoadiabatique du thermomètre mouillé, Øw ?</p>
+            <p>6- Quelle est la température pseudoadiabatique du thermomètre mouillé T w ?</p>
+            <p>7- Trouvez la température du point de rosée T a.</p>
+            <p>8- Quelle est la température réelle de A à 820hPa et à 700hPa?</p>
+            <p>9- Pourquoi en haute altitude, les adiabatiques sèches et saturées sont-t- elles asymptote ?</p>
+            <p>UNIVERSITE D'ANTANANARIVO ARTS, LETTRES ET SCIENCES HUMAINES MENTION DE GEOGRAPHIE GRADE : L1</p>
+            <p>ANNEE UNIVERSITAIRE : 2023-2024 SESSION : NORMALE EC : HYDROSPHERE DATE : 26/07/24</p>
+            <p>Toutes les questions sont obligatoires</p>
+            <p>1- Expliquez le processus d’océanisation (4 points)</p>
+            <p>2- Dressez un profil bathymétrique du relief sous-marin (10 points)</p>
+            <p>3- Citez un exemple de courant océanique chaud de surface et un exemple de courant océanique profond (2points)</p>
+            <p>4- Quels sont les types de marées (4 points)</p>
+
+            <div class="complement">
+                <strong>📚 Complément – Sujets d'examen</strong><br>
+                Ces sujets couvrent l'ensemble du programme de licence : atmosphère (thermodynamique, circulation), hydrosphère (océanisation, courants, marées), lithosphère (géomorphologie, tectonique), cartographie, environnement, et questions économiques. Ils illustrent l'approche pluridisciplinaire de la géographie. (Source : « Annales de géographie », Université d'Antananarivo, 2020-2024)
+            </div>
+
+            <!-- Fin du document -->
+            <p style="text-align:center; margin-top:3em; font-style:italic; color:var(--text-muted);">— Fin du document —</p>
+
+            <!-- Navigation -->
+            <div class="navigation">
+                <a href="index.html" class="nav-link">🏠 Sommaire</a>
+                <a href="part11.html" class="nav-link">⬅ Partie précédente</a>
+                <span class="nav-link" style="opacity:0.5;">➡ Fin</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PASSWORD = "Armadel";
+        const loginOverlay = document.getElementById('loginOverlay');
+        const mainContent = document.getElementById('mainContent');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMsg = document.getElementById('errorMsg');
+
+        if (sessionStorage.getItem('auth') === PASSWORD) {
+            loginOverlay.classList.add('hidden');
+            mainContent.classList.add('visible');
+        }
+
+        function checkPassword() {
+            if (passwordInput.value === PASSWORD) {
+                sessionStorage.setItem('auth', PASSWORD);
+                loginOverlay.classList.add('hidden');
+                mainContent.classList.add('visible');
+            } else {
+                errorMsg.style.display = 'block';
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        }
+
+        loginBtn.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
+        passwordInput.addEventListener('input', () => { errorMsg.style.display = 'none'; });
+    </script>
+</body>
+</html>

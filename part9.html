@@ -1,0 +1,243 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Géographie · Partie 9 – Mondialisation et Trente Glorieuses</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* Styles identiques */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --glass-bg: rgba(255,255,255,0.08);
+            --glass-border: rgba(255,255,255,0.18);
+            --glass-shadow: 0 8px 32px rgba(0,0,0,0.37);
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255,255,255,0.9);
+            --text-muted: rgba(255,255,255,0.6);
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .bg-orb { position: fixed; border-radius: 50%; filter: blur(100px); opacity: 0.5; pointer-events: none; z-index: 0; animation: float 20s ease-in-out infinite; }
+        .bg-orb-1 { width: 600px; height: 600px; background: var(--gradient-1); top: -200px; left: -200px; }
+        .bg-orb-2 { width: 500px; height: 500px; background: var(--gradient-2); bottom: -150px; right: -150px; animation-delay: -7s; }
+        .bg-orb-3 { width: 400px; height: 400px; background: var(--gradient-3); top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: -14s; opacity: 0.3; }
+        @keyframes float {
+            0%,100%{ transform: translate(0,0) scale(1); }
+            33%{ transform: translate(30px,-30px) scale(1.05); }
+            66%{ transform: translate(-20px,20px) scale(0.95); }
+        }
+        .login-overlay {
+            position: fixed; inset: 0; background: rgba(15,12,41,0.95); backdrop-filter: blur(30px);
+            display: flex; justify-content: center; align-items: center; z-index: 1000;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        .login-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .login-card {
+            background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
+            border-radius: 24px; padding: 48px 40px; width: 90%; max-width: 420px; box-shadow: var(--glass-shadow);
+            text-align: center;
+        }
+        .login-card h2 { font-family: 'Crimson Pro', serif; font-size: 2rem; margin-bottom: 8px; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .login-subtitle { color: var(--text-muted); margin-bottom: 32px; }
+        .login-input {
+            width: 100%; padding: 16px 20px; margin-bottom: 20px; background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; color: var(--text-primary);
+            font-size: 1rem; outline: none; transition: all 0.3s;
+        }
+        .login-input:focus { background: rgba(255,255,255,0.1); border-color: rgba(102,126,234,0.6); box-shadow: 0 0 20px rgba(102,126,234,0.2); }
+        .login-btn {
+            width: 100%; padding: 16px; background: var(--gradient-1); color: white; border: none;
+            border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(102,126,234,0.4);
+        }
+        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(102,126,234,0.6); }
+        .error-msg { color: #ff6b6b; margin-top: 16px; padding: 12px; background: rgba(255,107,107,0.1); border-radius: 8px; border: 1px solid rgba(255,107,107,0.3); display: none; }
+
+        .main-wrapper { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 40px 20px; display: none; }
+        .main-wrapper.visible { display: block; animation: fadeIn 0.8s ease; }
+        @keyframes fadeIn { from{ opacity:0; transform:translateY(20px); } to{ opacity:1; transform:translateY(0); } }
+        .glass-container {
+            background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
+            border-radius: 28px; padding: 50px; box-shadow: var(--glass-shadow);
+        }
+        h1, h2, h3 { font-family: 'Crimson Pro', serif; font-weight: 600; margin-top: 2em; margin-bottom: 0.8em; line-height: 1.3; }
+        h1 { font-size: 2.2rem; background: var(--gradient-3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; margin-top: 0; padding-bottom: 0.5em; border-bottom: 2px solid rgba(255,255,255,0.1); }
+        h2 { font-size: 1.6rem; color: var(--text-primary); padding-left: 16px; border-left: 4px solid; border-image: var(--gradient-2) 1; }
+        h3 { font-size: 1.3rem; color: var(--text-secondary); font-weight: 500; }
+        p { margin: 1em 0; color: var(--text-secondary); text-align: justify; }
+        ul, ol { margin: 1em 0 1em 2em; color: var(--text-secondary); }
+        li { margin: 0.6em 0; }
+        ul li::marker { color: #667eea; }
+        .page-break { margin: 3em 0; padding: 20px 0; text-align: center; font-family: 'Crimson Pro', serif; font-style: italic; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); position: relative; }
+        .page-break::before, .page-break::after { content: '◆'; position: absolute; top: 50%; transform: translateY(-50%); color: #667eea; font-size: 0.5rem; }
+        .page-break::before { left: 30%; } .page-break::after { right: 30%; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 2em; padding-top: 1em; border-top: 1px solid rgba(255,255,255,0.1); }
+        .nav-link { color: #a5b4fc; text-decoration: none; font-weight: 600; padding: 8px 16px; border: 1px solid var(--glass-border); border-radius: 40px; transition: all 0.3s; }
+        .nav-link:hover { background: rgba(102,126,234,0.3); transform: translateY(-2px); }
+        .complement {
+            background: rgba(255,255,255,0.03); border-left: 4px solid #f5576c; padding: 16px 20px; margin: 1.5em 0; border-radius: 12px;
+            font-style: italic; color: var(--text-secondary); box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .complement strong { color: #f5576c; font-weight: 600; }
+        ::selection { background: rgba(102,126,234,0.4); color: white; }
+        @media (max-width: 768px) { .glass-container { padding: 30px 20px; } h1 { font-size:1.7rem; } h2 { font-size:1.3rem; } .page-break::before, .page-break::after { display:none; } }
+    </style>
+</head>
+<body>
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+
+    <!-- Login Overlay -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <h2>Accès au document</h2>
+            <p class="login-subtitle">Partie 9 – Mondialisation et Trente Glorieuses</p>
+            <input type="password" id="passwordInput" class="login-input" placeholder="Mot de passe">
+            <button id="loginBtn" class="login-btn">Entrer</button>
+            <div id="errorMsg" class="error-msg">Mot de passe incorrect</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-wrapper" id="mainContent">
+        <div class="glass-container">
+            <!-- Navigation -->
+            <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+                <a href="index.html" class="nav-link">🏠 Sommaire</a>
+                <a href="part8.html" class="nav-link">⬅ Partie précédente</a>
+                <a href="part10.html" class="nav-link">➡ Partie suivante</a>
+            </div>
+
+            <!-- Contenu original des pages 38 à 42 (suite des Trente Glorieuses) -->
+            <div class="page-break">Page 38</div>
+            <!-- La page 38 se termine par la partie C des Trente Glorieuses, nous continuons -->
+            <h2>C. Les politiques économiques et sociales</h2>
+            <p>Les politiques économiques keynésiennes mises en place par l'État ont favorisé la croissance. L'intervention de l'État dans l'économie, à travers des investissements massifs dans les infrastructures et la planification économique, a stimulé l'activité économique. De plus, les politiques sociales, comme la mise en place de la Sécurité sociale et l'amélioration des conditions de travail, ont renforcé le pouvoir d'achat des ménages et soutenu la consommation.</p>
+            <h2>II. Les impacts sociaux et économiques des Trente Glorieuses</h2>
+            <h2>A. L'amélioration des conditions de vie</h2>
+            <p>Les Trente Glorieuses ont vu une amélioration significative des conditions de vie en France. L'accès à l'éducation s'est généralisé, avec une augmentation du taux de scolarisation et la création de nouvelles universités. Le logement social a été développé pour répondre aux besoins de la population croissante. Les avancées dans la santé publique, avec la généralisation des soins médicaux et l'amélioration des infrastructures sanitaires, ont conduit à une augmentation de l'espérance de vie.</p>
+            <h2>B. La transformation de la société</h2>
+            <p>La société française a subi de profondes transformations durant cette période. L'urbanisation rapide a conduit à la croissance des grandes villes et à la disparition progressive des modes de vie ruraux. La consommation de masse</p>
+
+            <div class="complement">
+                <strong>📚 Complément – Les Trente Glorieuses en chiffres</strong><br>
+                Entre 1945 et 1975, le PIB de la France a été multiplié par 3, la production industrielle par 4, et le pouvoir d'achat a augmenté de 170 %. Le taux de chômage est resté inférieur à 3 %. Cette période a vu l'émergence de la société de consommation (automobile, électroménager, télévision). (Source : « Les Trente Glorieuses », Jean Fourastié, 1979)
+            </div>
+
+            <div class="page-break">Page 39</div>
+            <p>est devenue un trait caractéristique de la société, avec l'émergence des supermarchés et l'augmentation de l'équipement ménager. Les mouvements sociaux, comme Mai 68, ont également marqué cette époque, exprimant des aspirations à plus de liberté et de justice sociale.</p>
+            <h2>C. Les mutations économiques</h2>
+            <p>L'économie française a connu une diversification importante, avec une montée en puissance du secteur tertiaire (services) au détriment du secteur primaire (agriculture). Les gains de productivité dans l'industrie ont permis de soutenir la croissance économique, tandis que l'internationalisation des échanges a ouvert de nouveaux marchés pour les entreprises françaises.</p>
+            <h2>III. Les raisons du déclin des Trente Glorieuses</h2>
+            <h2>A. Les chocs pétroliers et la crise économique</h2>
+            <p>Les chocs pétroliers de 1973 et 1979 ont marqué la fin des Trente Glorieuses. La hausse spectaculaire des prix du pétrole a entraîné une augmentation des coûts de production et une inflation galopante. Les économies occidentales, y compris la France, ont été plongées dans une récession économique, marquant la fin de la croissance rapide et stable.</p>
+            <h2>B. Les limites du modèle de croissance</h2>
+            <p>Le modèle de croissance des Trente Glorieuses montrait déjà des signes d'essoufflement avant les chocs pétroliers. La saturation des marchés de consommation et les rigidités du marché du travail ont limité les possibilités de croissance. De plus, l'endettement croissant de l'État pour financer les politiques keynésiennes devenait insoutenable.</p>
+            <h2>C. Les transformations sociales et économiques</h2>
+            <p>Les transformations sociales des Trente Glorieuses ont également contribué à leur déclin. Les aspirations croissantes des jeunes générations à plus d'autonomie et de liberté, ainsi que les revendications des mouvements sociaux, ont mis en lumière les limites du modèle de société d'après-guerre. L'internationalisation de l'économie et la concurrence accrue des pays émergents ont également changé les dynamiques économiques, rendant les industries traditionnelles moins compétitives.</p>
+            <h2>Conclusion</h2>
+            <p>Les Trente Glorieuses représentent une période de prospérité exceptionnelle dans l'histoire de la France, marquée par une croissance économique rapide, une amélioration des conditions de vie et des transformations profondes de la société. Cependant, les chocs pétroliers et les limites inhérentes au modèle de croissance ont conduit à leur déclin. Cette période reste une référence importante pour comprendre les dynamiques économiques et sociales contemporaines et les défis futurs.</p>
+            <p>la géographie est une histoire naturelle ,elle est devenir physique et humaine ,elle tend a devenir sociale.expliquer</p>
+            <h2>INTRODUCTION A LA GEOGRAPHIE</h2>
+            <p>La géographie, en tant que discipline académique, a évolué au fil du temps pour englober divers aspects de notre compréhension du monde. À l'origine, elle était principalement une histoire naturelle, mais elle a</p>
+
+            <div class="page-break">Page 40</div>
+            <p>La géographie en tant qu'histoire naturelle 	À ses débuts, la géographie était essentiellement descriptive et se concentrait sur l'étude des caractéristiques naturelles de la Terre. Les géographes de l'Antiquité, comme Ptolémée et Strabon, se préoccupaient principalement de cartographier le monde connu et de décrire les montagnes, rivières, climats et autres éléments du paysage. Cette approche s'apparentait à une forme d'histoire naturelle, où l'accent était mis sur l'observation et la documentation des phénomènes naturels.</p>
+            <h2>La géographie physique</h2>
+            <p>Avec le temps, la géographie a commencé à se structurer comme une science distincte et plus rigoureuse. La géographie physique est apparue comme une branche majeure, se concentrant sur les processus naturels qui façonnent la surface de la Terre. Elle inclut l'étude des reliefs (géomorphologie), des climats (climatologie), des sols (pédologie), des cours d'eau (hydrologie), et des écosystèmes (biogéographie). Cette sous-discipline utilise des méthodes scientifiques pour comprendre les dynamiques naturelles et leurs interactions.</p>
+            <h2>La géographie humaine</h2>
+            <p>La révolution industrielle et les transformations sociales qui ont suivi ont conduit à un intérêt accru pour les aspects humains de la géographie. La géographie humaine se concentre sur la relation entre les êtres humains et leur environnement. Elle examine comment les sociétés humaines s'organisent dans l'espace, les dynamiques démographiques, les structures économiques, les cultures, les systèmes politiques, et les interactions sociales. Les géographes humains s'intéressent à des questions telles que l'urbanisation, la répartition des ressources, les migrations, et les impacts environnementaux des activités humaines.</p>
+            <h2>La géographie sociale</h2>
+            <p>La géographie tend aujourd'hui à devenir de plus en plus sociale, intégrant des perspectives issues des sciences sociales telles que la sociologie, l'anthropologie, et les études culturelles. La géographie sociale se penche sur les inégalités sociales et spatiales, les identités, les représentations et les pratiques culturelles dans différents contextes géographiques. Elle explore comment les espaces sont socialement construits et comment le pouvoir, la culture, et les relations sociales influencent et sont influencés par l'organisation spatiale. Les géographes sociaux s'intéressent à des thèmes comme la justice spatiale, les territoires de la marginalité, et les dynamiques de genre et de race dans l'espace.</p>
+            <h2>Conclusion</h2>
+            <p>La géographie a évolué d’une description naturaliste de la Terre à une discipline complexe et multidimensionnelle. Elle a intégré des aspects physiques et humains, et tend maintenant à devenir sociale en adoptant des approches et des concepts issus des sciences sociales. Cette évolution reflète une compréhension plus holistique de la manière dont les environnements naturels et humains sont interconnectés et comment les dynamiques sociales et culturelles façonnent notre monde spatial.</p>
+            <h2>Géographie rurale</h2>
+            <h2>Notions à maîtriser</h2>
+            <p>Agriculture: ensemble des activités consistant à travailler le sol ou à élever des animaux afin de pourvoir aux besoins des Hommes en matière d'alimentation.</p>
+
+            <div class="complement">
+                <strong>📚 Complément – La géographie sociale aujourd'hui</strong><br>
+                La géographie sociale analyse les inégalités socio-spatiales (gentrification, ségrégation, accès aux services), les mobilisations citoyennes et les rapports de pouvoir. Des figures comme Henri Lefebvre (droit à la ville) ou David Harvey (géographie critique) ont marqué ce courant. (Source : « Épistémologie et histoire de la géographie », Marie-Claire Robic, 2019)
+            </div>
+
+            <div class="page-break">Page 41</div>
+            <p>Déprise rurale: processus de fragilisation de Espace rural, marqué par le dépeuplement des campagnes (exode rural) et par une disparition progressive des activités rurales (agriculture, commerces, services, artisanat, industrie ,etc.). La déprise rurale peut accompagner une déprise agricole (fragilisation voire abandon progressif des activités agricoles et des terres agricoles).</p>
+            <p>Développement rural: processus de diversification et d'enrichissement des activités économiques et sociales sur un espace rural fondé sur l'investissement des acteurs locaux (développement local). Il valorise des ressource locales dans une approche transversale (démographie, services, activités, ressources, environnement, etc.).</p>
+            <p>Économie présentielle: économie basée sur la production de biens et de services visant la satisfaction des besoins de personnes présentes dans la zone, qu'elles soient résidentes ou touristes.</p>
+            <p>Economie productive: économie fondée sur des activités qui produisent des biens et des services majoritairement consommés hors de la zone de production. L'agriculture et l'industrie sont des économies productives.</p>
+            <p>Espace rural: espace marqué par les faibles densités (de populations, de constructions, d'emplois, d'équipements, etc.), les paysages où les formations végétales (forêts, prairies, cultures, friches, etc.) dominent et l'importance des activités agricoles en termes de surfaces (plus qu'en termes d'actifs). On définit généralement l'espace rural en négatif de l'espace urbain.</p>
+            <p>Exode rural: migration (souvent massive) de populations rurales vers les espaces urbains.</p>
+            <p>Exploitation agricole : entité économique, de dimension très variable, qui met en valeur une portion plus ou moins étendue de territoire, grâce à la combinaison de trois facteurs de production (terre, capital et travail) et produisant des denrées végétales et/ou animales.</p>
+            <p>Extensif (système agro-alimentaire): se caractérise par de faibles investissements et de bas rendements. Il faut donc des superficies agricoles importantes pour parvenir à un volume de production donné.</p>
+            <p>Intensif (système agro-alimentaires): se caractérise par de forts rendements à l'hectare obtenus soit par un travail manuel minutieux, soit par des investissements importants en capitaux.</p>
+            <p>Multifonctionnalité (de I ‘espace rural): pluralité des fonctions de l'espace rural; au-delà de la fonction agricole s'y développent des fonctions résidentielles, touristiques ou encore industrielles.</p>
+            <h2>AGRICULTURE DU MONDE TROPICALE</h2>
+            <h2>Caractéristiques Climatiques</h2>
+            <h2>1. Temperatures Elèves :</h2>
+            <p>o Les régions tropicales sont situées entre les tropiques du Cancer et du Capricorne.</p>
+            <p>o Les températures moyennes annuelles se situent généralement entre 20°C et 30°C.</p>
+            <p>o Les variations saisonnières de température sont souvent faibles, avec des journées chaudes toute l'année.</p>
+            <h2>2. Précipitations Abondantes :</h2>
+            <p>o Les précipitations sont abondantes, mais leur distribution est souvent irrégulière.</p>
+            <p>o Les régions peuvent connaître des saisons des pluies intenses et des saisons sèches prolongées.</p>
+            <p>o Les précipitations annuelles varient considérablement : elles peuvent dépasser 2000 mm dans les forêts tropicales humides, mais être beaucoup plus faibles dans les zones de savane ou de forêt sèche.</p>
+            <h2>3. Humidité :</h2>
+            <p>o L'humidité relative est généralement élevée, surtout dans les forêts tropicales humides où elle peut dépasser 80% toute l'année.</p>
+            <p>o Cette humidité contribue à la luxuriance de la végétation et à la diversité biologique.</p>
+            <h2>Caractéristiques Géographiques</h2>
+
+            <!-- Navigation -->
+            <div class="navigation">
+                <a href="index.html" class="nav-link">🏠 Sommaire</a>
+                <a href="part8.html" class="nav-link">⬅ Partie précédente</a>
+                <a href="part10.html" class="nav-link">➡ Partie suivante</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PASSWORD = "Armadel";
+        const loginOverlay = document.getElementById('loginOverlay');
+        const mainContent = document.getElementById('mainContent');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMsg = document.getElementById('errorMsg');
+
+        if (sessionStorage.getItem('auth') === PASSWORD) {
+            loginOverlay.classList.add('hidden');
+            mainContent.classList.add('visible');
+        }
+
+        function checkPassword() {
+            if (passwordInput.value === PASSWORD) {
+                sessionStorage.setItem('auth', PASSWORD);
+                loginOverlay.classList.add('hidden');
+                mainContent.classList.add('visible');
+            } else {
+                errorMsg.style.display = 'block';
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        }
+
+        loginBtn.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
+        passwordInput.addEventListener('input', () => { errorMsg.style.display = 'none'; });
+    </script>
+</body>
+</html>

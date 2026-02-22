@@ -1,0 +1,378 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Géographie · Partie 2 – Hydrosphère et océanisation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* Styles identiques à la partie 1 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --glass-bg: rgba(255,255,255,0.08);
+            --glass-border: rgba(255,255,255,0.18);
+            --glass-shadow: 0 8px 32px rgba(0,0,0,0.37);
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255,255,255,0.9);
+            --text-muted: rgba(255,255,255,0.6);
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .bg-orb { position: fixed; border-radius: 50%; filter: blur(100px); opacity: 0.5; pointer-events: none; z-index: 0; animation: float 20s ease-in-out infinite; }
+        .bg-orb-1 { width: 600px; height: 600px; background: var(--gradient-1); top: -200px; left: -200px; }
+        .bg-orb-2 { width: 500px; height: 500px; background: var(--gradient-2); bottom: -150px; right: -150px; animation-delay: -7s; }
+        .bg-orb-3 { width: 400px; height: 400px; background: var(--gradient-3); top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: -14s; opacity: 0.3; }
+        @keyframes float {
+            0%,100%{ transform: translate(0,0) scale(1); }
+            33%{ transform: translate(30px,-30px) scale(1.05); }
+            66%{ transform: translate(-20px,20px) scale(0.95); }
+        }
+        .login-overlay {
+            position: fixed; inset: 0; background: rgba(15,12,41,0.95); backdrop-filter: blur(30px);
+            display: flex; justify-content: center; align-items: center; z-index: 1000;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        .login-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .login-card {
+            background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
+            border-radius: 24px; padding: 48px 40px; width: 90%; max-width: 420px; box-shadow: var(--glass-shadow);
+            text-align: center;
+        }
+        .login-card h2 { font-family: 'Crimson Pro', serif; font-size: 2rem; margin-bottom: 8px; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .login-subtitle { color: var(--text-muted); margin-bottom: 32px; }
+        .login-input {
+            width: 100%; padding: 16px 20px; margin-bottom: 20px; background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; color: var(--text-primary);
+            font-size: 1rem; outline: none; transition: all 0.3s;
+        }
+        .login-input:focus { background: rgba(255,255,255,0.1); border-color: rgba(102,126,234,0.6); box-shadow: 0 0 20px rgba(102,126,234,0.2); }
+        .login-btn {
+            width: 100%; padding: 16px; background: var(--gradient-1); color: white; border: none;
+            border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(102,126,234,0.4);
+        }
+        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(102,126,234,0.6); }
+        .error-msg { color: #ff6b6b; margin-top: 16px; padding: 12px; background: rgba(255,107,107,0.1); border-radius: 8px; border: 1px solid rgba(255,107,107,0.3); display: none; }
+
+        .main-wrapper { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 40px 20px; display: none; }
+        .main-wrapper.visible { display: block; animation: fadeIn 0.8s ease; }
+        @keyframes fadeIn { from{ opacity:0; transform:translateY(20px); } to{ opacity:1; transform:translateY(0); } }
+        .glass-container {
+            background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
+            border-radius: 28px; padding: 50px; box-shadow: var(--glass-shadow);
+        }
+        h1, h2, h3 { font-family: 'Crimson Pro', serif; font-weight: 600; margin-top: 2em; margin-bottom: 0.8em; line-height: 1.3; }
+        h1 { font-size: 2.2rem; background: var(--gradient-3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; margin-top: 0; padding-bottom: 0.5em; border-bottom: 2px solid rgba(255,255,255,0.1); }
+        h2 { font-size: 1.6rem; color: var(--text-primary); padding-left: 16px; border-left: 4px solid; border-image: var(--gradient-2) 1; }
+        h3 { font-size: 1.3rem; color: var(--text-secondary); font-weight: 500; }
+        p { margin: 1em 0; color: var(--text-secondary); text-align: justify; }
+        ul, ol { margin: 1em 0 1em 2em; color: var(--text-secondary); }
+        li { margin: 0.6em 0; }
+        ul li::marker { color: #667eea; }
+        .page-break { margin: 3em 0; padding: 20px 0; text-align: center; font-family: 'Crimson Pro', serif; font-style: italic; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); position: relative; }
+        .page-break::before, .page-break::after { content: '◆'; position: absolute; top: 50%; transform: translateY(-50%); color: #667eea; font-size: 0.5rem; }
+        .page-break::before { left: 30%; } .page-break::after { right: 30%; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 2em; padding-top: 1em; border-top: 1px solid rgba(255,255,255,0.1); }
+        .nav-link { color: #a5b4fc; text-decoration: none; font-weight: 600; padding: 8px 16px; border: 1px solid var(--glass-border); border-radius: 40px; transition: all 0.3s; }
+        .nav-link:hover { background: rgba(102,126,234,0.3); transform: translateY(-2px); }
+        .complement {
+            background: rgba(255,255,255,0.03); border-left: 4px solid #4facfe; padding: 16px 20px; margin: 1.5em 0; border-radius: 12px;
+            font-style: italic; color: var(--text-secondary); box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .complement strong { color: #4facfe; font-weight: 600; }
+        ::selection { background: rgba(102,126,234,0.4); color: white; }
+        @media (max-width: 768px) { .glass-container { padding: 30px 20px; } h1 { font-size:1.7rem; } h2 { font-size:1.3rem; } .page-break::before, .page-break::after { display:none; } }
+    </style>
+</head>
+<body>
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+
+    <!-- Login Overlay -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <h2>Accès au document</h2>
+            <p class="login-subtitle">Partie 2 – Hydrosphère et océanisation</p>
+            <input type="password" id="passwordInput" class="login-input" placeholder="Mot de passe">
+            <button id="loginBtn" class="login-btn">Entrer</button>
+            <div id="errorMsg" class="error-msg">Mot de passe incorrect</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-wrapper" id="mainContent">
+        <div class="glass-container">
+            <!-- Navigation -->
+            <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+                <a href="index.html" class="nav-link">🏠 Sommaire</a>
+                <a href="part1.html" class="nav-link">⬅ Partie précédente</a>
+                <a href="part3.html" class="nav-link">➡ Partie suivante</a>
+            </div>
+
+            <!-- Contenu original des pages 3 à 6 -->
+            <div class="page-break">Page 3</div>
+            <!-- Rappel : la page 3 commence avec la fin de la partie précédente, mais nous reprenons exactement là où la partie 1 s'est arrêtée -->
+            <p>... (suite de la page 3) ...</p>
+            <!-- D'après le document original, la page 3 contient : -->
+            <ol start="3">
+                <li>**CROISSANCE DES GOUTTELETTES :** À mesure que les gouttelettes d'eau ou les cristaux de glace se forment, ils peuvent fusionner avec d'autres particules pour former des gouttes de pluie ou des flocons de neige plus gros.</li>
+                <li>**PRECIPITATION :** Lorsque les gouttes d'eau ou les cristaux de glace deviennent suffisamment lourds, ils tombent vers le sol sous l'effet de la gravité. C'est ce qu'on appelle la précipitation, qui peut se présenter sous forme de pluie, de neige, de grésil, etc.</li>
+                <li>**Cycle de l'eau :** Une fois sur le sol, l'eau peut s'infiltrer dans le sol pour former des nappes phréatiques, être absorbée par les plantes, ou retourner dans les cours d'eau pour recommencer le cycle.</li>
+            </ol>
+            <p>Ces processus interdépendants constituent le cycle de l'eau, un élément crucial pour le maintien de la vie sur Terre et pour la régulation du climat global.Bien sûr ! Voici les définitions et explications demandées :</p>
+            <h2>HYDROSPHERE</h2>
+            <p>. L’Océanisation (Formation des Bassins Océaniques)** Définition</p>
+            <p>Processus par lequel une portion de **croûte continentale** se transforme en **croûte océanique**, conduisant à la formation d’un bassin océanique. Ce mécanisme est lié à la **tectonique des plaques** et au cycle de Wilson (ouverture et fermeture des océans).</p>
+            <p>Étapes clés :</p>
+            <h2>I. Rifting continental :</h2>
+            <ul>
+                <li>Fracturation de la croûte continentale sous l’effet de forces tectoniques extensives.</li>
+                <li>Exemple : Le rift est-africain (futur océan en formation).</li>
+            </ul>
+            <h2>2. Étalement crustal :</h2>
+            <ul>
+                <li>Formation d’une dorsale océanique (ex. : dorsale médio-atlantique).</li>
+                <li>Émission de magma basalique créant une **nouvelle croûte océanique**.</li>
+            </ul>
+            <h2>3. Expansion océanique:</h2>
+            <ul>
+                <li>Éloignement des plaques et élargissement du bassin (ex. : l’océan Atlantique). Exemple concret** :</li>
+                <li>L’océan Atlantique s’est formé il y a environ 180 millions d’années par divergence des plaques africaine et sud-américaine.</li>
+            </ul>
+            
+            <div class="complement">
+                <strong>📚 Complément – Le cycle de Wilson</strong><br>
+                Le géologue canadien John Tuzo Wilson a proposé dans les années 1960 un modèle cyclique d’ouverture et de fermeture des océans. Le cycle comprend six stades : 1) stade de rift continental (ex. rift est-africain), 2) stade de jeune océan (ex. mer Rouge), 3) stade d’océan mature (ex. Atlantique), 4) stade de subduction (ex. Pacifique), 5) stade de fermeture (ex. Méditerranée), 6) stade de collision continentale (ex. Himalaya). Ce cycle dure environ 400 à 500 millions d’années. (Source : « Tectonique des plaques », Jacques Kornprobst, 2019)
+            </div>
+
+            <h2>2. Les Marges Continentales</h2>
+            <p>Définition :</p>
+            <p>Zones de transition entre la **croûte continentale** et la **croûte océanique**. Elles se divisent en deux types principaux :</p>
+            <p>A. Marges Passives (ou Marges Stables)**</p>
+            <ul>
+                <li>**Contexte** : En bordure de plaques tectoniques **non actives** (pas de subduction ni de collision).</li>
+                <li>**Formation** : Résultent du rifting et de l’ouverture d’un océan.</li>
+                <li>**Structure** :</li>
+                <li>1. **Plateau continental** : Partie immergée peu profonde (0–200 m).</li>
+                <li>2. **Talus continental** : Pente abrupte vers les profondeurs.</li>
+                <li>3. **Glacis continental** : Accumulation de sédiments en bas du talus.</li>
+                <li>**Exemples** : Côtes atlantiques de l’Europe ou de l’Amérique du Nord.</li>
+            </ul>
+            <h2>B. Marges Actives**</h2>
+            <ul>
+                <li>Zones de **subduction** (une plaque plonge sous une autre).</li>
+                <li>**Caractéristiques** :</li>
+                <li>Présence de **fosses océaniques** (ex. : fosse des Mariannes).</li>
+                <li>Volcanisme associé (ex. : la ceinture de feu du Pacifique).</li>
+                <li>**Exemples** : Côtes ouest de l’Amérique du Sud (subduction de la plaque de Nazca sous l’Amérique du Sud).</li>
+            </ul>
+            <p>. Les Cuvettes Océaniques**</p>
+            <p>**Définition** :</p>
+
+            <div class="complement">
+                <strong>📚 Complément – Différence entre marges passives et actives</strong><br>
+                Les marges passives, comme celles de l’Atlantique, sont tectoniquement calmes et accumulent d’épaisses couches de sédiments. Elles sont souvent riches en hydrocarbures (ex. golfe du Mexique). Les marges actives, typiques du Pacifique, sont le siège de séismes violents, de volcanisme et de la formation de prismes d’accrétion. La fosse des Mariannes, point le plus profond du globe (-11 034 m), se trouve sur une marge active. (Source : « Géologie des marges continentales », Société géologique de France, 2021)
+            </div>
+
+            <div class="page-break">Page 4</div>
+            <p>Dépressions profondes et étendues formant le plancher des océans. Elles comprennent plusieurs éléments géomorphologiques :</p>
+            <p>A. Principales Structures**</p>
+            <ol>
+                <li>Plaines abyssales</li>
+            </ol>
+            <ul>
+                <li>Zones plates à 4000–6000 m de profondeur, recouvertes de sédiments (argiles, restes organiques).</li>
+            </ul>
+            <ol start="2">
+                <li>Dorsales océaniques:</li>
+            </ol>
+            <ul>
+                <li>Chaînes montagneuses sous-marines (ex. : dorsale médio-océanique) où se forme la croûte océanique.</li>
+            </ul>
+            <ol start="3">
+                <li>Fosses océaniques:</li>
+            </ol>
+            <ul>
+                <li>Zones les plus profondes (jusqu’à 11 000 m), associées aux zones de subduction.</li>
+            </ul>
+            <ol start="4">
+                <li>**Seamounts et guyots** :</li>
+            </ol>
+            <ul>
+                <li>Monts sous-marins volcaniques, parfois aplatis par l’érosion (gu yots).</li>
+            </ul>
+            <ol start="5">
+                <li>Schéma Synthétique**</li>
+            </ol>
+            <ol>
+                <li>**Marge passive** → Plateau continental → Talus → Glacis → Plaine abyssale.</li>
+                <li>**Marge active** → Fosse océanique → Volcans → Arc insulaire (ex. : Japon).</li>
+                <li>**Cuvette océanique** → Dorsale (accrétion) → Fosse (subduction).</li>
+            </ol>
+            <p>Résumé</p>
+            <ul>
+                <li>**Océanisation** : Processus de création de croûte océanique.</li>
+                <li>**Marges continentales** : Zones clés entre continents et océans (passives vs actives).</li>
+                <li>**Cuvettes océaniques** : Structures variées (plaines, dorsales, fosses) façonnées par la tectonique.</li>
+            </ul>
+            <p>Voici une synthèse structurée des concepts géologiques et océanographiques présents dans les images fournies :</p>
+            <ol>
+                <li>Fermeture d’un océan et cycle de Wilson**</li>
+            </ol>
+            <p>Processus de fermeture océanique**</p>
+            <p>-Étapes clés** :</p>
+            <ol>
+                <li>***150 Ma** : Début de la subduction de la **croûte océanique** (plaque A sous plaque B).</li>
+                <li>***70 à 45 Ma** : Collision continentale et **obduction** (chevauchement de croûte océanique sur un continent).</li>
+                <li>***45 à 25 Ma** : Formation de chaînes de montagnes (ex. : Alpes, Himalaya) par collision finale.</li>
+            </ol>
+            <ul>
+                <li>**Cycle de Wilson** : Modèle expliquant l’ouverture et la fermeture des océans sur des centaines de millions d’années.</li>
+                <li>Phases : Expansion océanique → Subduction → Collision → Océan stable.</li>
+            </ul>
+
+            <div class="complement">
+                <strong>📚 Complément – L’obduction</strong><br>
+                L’obduction est un phénomène tectonique rare où une portion de croûte océanique est chevauchée sur une croûte continentale, au lieu de plonger dans le manteau. On en trouve des témoins dans les ophiolites, comme celles d’Oman ou de Nouvelle-Calédonie. Ces fragments océaniques préservés renseignent sur la composition et l’âge des océans disparus. (Source : « Géodynamique », Pierre Thomas, 2018)
+            </div>
+
+            <ol start="2">
+                <li>Tectonique des plaques**</li>
+            </ol>
+            <ul>
+                <li>**Mouvements des plaques** :</li>
+                <li>**Divergence** : Séparation des plaques au niveau des **dorsales océaniques** (ex. : dorsale médio-atlantique), créant une nouvelle croûte océanique.</li>
+                <li>**Convergence** : Subduction (plongement d’une plaque océanique) ou collision (entre deux plaques continentales).</li>
+            </ul>
+            <ol start="3">
+                <li>Océanisation**</li>
+            </ol>
+            <ul>
+                <li>**Processus** : Formation des bassins océaniques via :</li>
+                <li>**Courants de convection mantelliques** : Mouvements de matériel chaud ascendant et froid descendant dans le manteau.</li>
+                <li>**Refroidissement** : Solidification du magma en croûte océanique au niveau des dorsales.</li>
+            </ul>
+            <ol start="4">
+                <li>Reliefs sous-marins**</li>
+            </ol>
+            <p>**A. Marges continentales**</p>
+            <ol>
+                <li>**Plateau continental** : Zone peu profonde (0–200 m), riche en sédiments.</li>
+                <li>**Talus continental** : Pente abrupte entre le plateau et les profondeurs.</li>
+                <li>**Glacis continental** : Accumulation de sédiments en pied de talus.</li>
+            </ol>
+            <p>*B. Cuvettes océaniques**</p>
+            <ul>
+                <li>**Dorsales et rifts** : Chaînes volcaniques actives (ex. : dorsale Est-Pacifique).</li>
+                <li>**Bassins océaniques** : Plaines abyssales (4 000–6 000 m de profondeur).</li>
+                <li>**Reliefs isolés** :</li>
+                <li>Pitons: Monts sous-marins volcaniques.</li>
+                <li>Guyots : Plateau sous-marins érodés.</li>
+            </ul>
+
+            <div class="page-break">Page 5</div>
+            <h2>DIFFERENCE ENTRE MER ET OCEAN :</h2>
+            <p>Les mers sont des étendues d'eau salée partiellement fermées par des terres, plus petites que les océans. Les océans, quant à eux, sont les plus vastes étendues d'eau salée couvrant la surface de la Terre et séparées par des continents.</p>
+            <h2>BATHYSCAPHE :</h2>
+            <p>Un bathyscaphe est un type de sous-marin conçu pour explorer les grandes profondeurs des océans. Contrairement aux sous-marins conventionnels, les bathyscapes utilisent principalement des ballasts remplis de carburant pour contrôler leur flottabilité.</p>
+            <h2>ÉLÉMENTS CONSTITUTIFS DES CUVETTES OCEANIQUES :</h2>
+            <p>Les cuvettes océaniques sont formées de la croûte océanique (principalement constituée de basalte), de la lithosphère océanique (la partie rigide de la croûte et du manteau supérieur), et sont caractérisées par des dorsales océaniques, des fosses abyssales et des plaines abyssales.</p>
+            <h2>MOUVEMENT ESTATIQUE :</h2>
+            <p>Le mouvement eustatique se réfère aux changements du niveau moyen des mers à l'échelle globale, souvent causés par des variations dans le volume des glaciers, la tectonique des plaques ou d'autres processus géologiques à grande échelle.</p>
+            <h2>REGULATEUR THERMIQUE :</h2>
+            <p>En géologie et en océanographie, le régulateur thermique se rapporte aux processus qui contrôlent la distribution et le transfert de la chaleur à travers l'océan, influençant ainsi le climat global et les courants océaniques.</p>
+            <p>• L'appellation "marges convergentes" ou "zones de subduction" fait référence aux régions où deux plaques tectoniques entrent en collision et où l'une des plaques plonge sous l'autre. Ce processus est l'un des trois types principaux de marges tectoniques, les autres étant les marges divergentes (où les plaques s'écartent) et les marges transformantes (où les plaques glissent latéralement l'une par rapport à l'autre).</p>
+            <p>• Subduction : C'est le processus central des marges convergentes. Il se produit lorsque deux plaques lithosphériques entrent en collision et que l'une d'elles, généralement la plus dense en raison de sa composition plus ancienne et refroidie, plonge sous l'autre plaque. Cette zone où la plaque descendante plonge dans le manteau terrestre est appelée zone de subduction. Typiquement, la plaque océanique plus dense plonge sous la plaque continentale ou une autre plaque océanique moins dense.</p>
+            <p>• Les principales manifestations des mouvements de convergence incluent :</p>
+            <p>o Subduction : Lorsque deux plaques tectoniques entrent en collision et que l'une plonge sous l'autre dans le manteau terrestre, créant souvent des zones de fosses océaniques profondes.</p>
+            <p>o Formation de chaînes de montagnes : Lorsque les plaques continentales entrent en collision, elles peuvent former de vastes chaînes de montagnes, telles que l'Himalaya formé par la collision entre la plaque indienne et la plaque eurasienne.</p>
+            <p>o Activité sismique et volcanique : Les zones de convergence sont souvent associées à une activité sismique intense et à la formation de volcans, en raison de la friction et des mouvements le long des failles et des zones de subduction.</p>
+
+            <div class="complement">
+                <strong>📚 Complément – L’eustatisme et ses causes</strong><br>
+                Les variations eustatiques (changements du niveau marin global) peuvent être d’origine tectonique (ouverture/fermeture d’un bassin océanique), glacio-eustatique (variation du volume des calottes glaciaires) ou thermo-eustatique (dilatation thermique de l’eau). Actuellement, la hausse du niveau marin due au réchauffement climatique est principalement thermo-eustatique (≈50 %) et glacio-eustatique (fonte des glaciers). (Source : GIEC, 6e rapport, 2021)
+            </div>
+
+            <div class="page-break">Page 6</div>
+            <h2>CONSEQUENCES :</h2>
+            <p>• Les conséquences des mouvements de convergence sont multiples :</p>
+            <p>o Formation de chaînes de montagnes : Comme mentionné précédemment, les collisions continentales peuvent créer de vastes chaînes de montagnes.</p>
+            <p>o Activité sismique et risques associés : Les zones de subduction sont souvent des zones à haut risque sismique en raison des forces accumulées et libérées par les mouvements des plaques.</p>
+            <p>o Formation d'îles et d'arcs volcaniques : Lorsque la subduction implique une plaque océanique, elle peut conduire à la formation d'arcs insulaires et d'îles volcaniques à la surface de la Terre.</p>
+            <p>o Circulation du magma et des minéraux : Les zones de subduction permettent également la remontée du magma vers la surface, enrichissant ainsi la croûte terrestre en minéraux.</p>
+            <h2>RIVIERE CATACLINALE :</h2>
+            <p>Une rivière cataclinale se forme le long d'une structure géologique appelée cataclinal, où les couches de roches sont inclinées mais pas suffisamment pour provoquer une faille. Ces rivières suivent généralement des lignes de faiblesse dans le substrat rocheux.</p>
+            <h2>RAPPORT ENTRE SYSTEME HYDROGRAPHIQUE ET STRUCTURE GEOLOGIQUE :</h2>
+            <p>Les systèmes hydrographiques, tels que les rivières et les bassins versants, sont largement influencés par la structure géologique sous-jacente. Par exemple, les rivières peuvent suivre les lignes de faiblesse ou les zones de fractures dans la roche, créant des cours d'eau et des bassins versants spécifiques. La composition géologique du sol affecte également la qualité et la quantité de l'eau dans ces systèmes.</p>
+            <h2>CAS D'ADAPTATION :</h2>
+            <p>En géologie, un "cas d'adaptation" fait référence à une situation où des formations géologiques se sont ajustées les unes aux autres de manière complexe, souvent en réponse à des contraintes tectoniques ou à d'autres influences géologiques. Cela peut inclure des ajustements de formations rocheuses adjacentes ou des variations dans la topographie en fonction de forces externes.</p>
+            <h2>TROIS GRANDS RELIEFS TROUVES SUR LES CONTINENTS :</h2>
+            <p>Les trois grands reliefs trouvés sur les continents sont :</p>
+            <p>LES MONTAGNES : Formées par des processus tectoniques comme la collision des plaques ou par l'activité volcanique.</p>
+            <p>LES PLAINES : De vastes étendues de terrains plats ou légèrement inclinés, souvent formées par des dépôts sédimentaires ou des processus d'érosion.</p>
+            <p>LES PLATEAUX : Des régions élevées et relativement planes, formées par l'accumulation de matériaux ou par des processus tectoniques et érosifs.</p>
+            <h2>GRABEN :</h2>
+            <p>Un graben est une structure géologique caractérisée par un bloc de terre abaissé, bordé par des failles normales. Ils se forment généralement dans des contextes de distension tectonique où la croûte terrestre s'étire et se déforme, créant des fossés</p>
+            <h2>CYCLE DE L’EAU :</h2>
+            <p>Le cycle de l'eau est le processus continu de circulation de l'eau sur, sous et au-dessus de la surface de la Terre. Il comprend l'évaporation de l'eau depuis les océans et les surfaces terrestres, la condensation pour former</p>
+            <!-- La page 6 se termine ainsi, la page 7 continue avec "des nuages, la précipitation..." mais cela appartient à la partie 3. -->
+
+            <div class="complement">
+                <strong>📚 Complément – Graben et horst</strong><br>
+                Un graben est un fossé d’effondrement limité par des failles normales, tandis qu’un horst est un bloc surélevé. Ces structures sont typiques des régions en extension, comme le rift est-africain (grabens du lac Tanganyika et du lac Malawi) ou le fossé rhénan en Europe. (Source : « Géologie structurale », Maurice Mattauer, 2017)
+            </div>
+
+            <!-- Navigation -->
+            <div class="navigation">
+                <a href="index.html" class="nav-link">🏠 Sommaire</a>
+                <a href="part1.html" class="nav-link">⬅ Partie précédente</a>
+                <a href="part3.html" class="nav-link">➡ Partie suivante</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PASSWORD = "Armadel";
+        const loginOverlay = document.getElementById('loginOverlay');
+        const mainContent = document.getElementById('mainContent');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMsg = document.getElementById('errorMsg');
+
+        if (sessionStorage.getItem('auth') === PASSWORD) {
+            loginOverlay.classList.add('hidden');
+            mainContent.classList.add('visible');
+        }
+
+        function checkPassword() {
+            if (passwordInput.value === PASSWORD) {
+                sessionStorage.setItem('auth', PASSWORD);
+                loginOverlay.classList.add('hidden');
+                mainContent.classList.add('visible');
+            } else {
+                errorMsg.style.display = 'block';
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        }
+
+        loginBtn.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
+        passwordInput.addEventListener('input', () => { errorMsg.style.display = 'none'; });
+    </script>
+</body>
+</html>

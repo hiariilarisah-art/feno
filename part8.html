@@ -1,0 +1,230 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Géographie · Partie 8 – Lithosphère et géomorphologie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* Mêmes styles que précédemment */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --glass-bg: rgba(255,255,255,0.08);
+            --glass-border: rgba(255,255,255,0.18);
+            --glass-shadow: 0 8px 32px rgba(0,0,0,0.37);
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255,255,255,0.9);
+            --text-muted: rgba(255,255,255,0.6);
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .bg-orb { position: fixed; border-radius: 50%; filter: blur(100px); opacity: 0.5; pointer-events: none; z-index: 0; animation: float 20s ease-in-out infinite; }
+        .bg-orb-1 { width: 600px; height: 600px; background: var(--gradient-1); top: -200px; left: -200px; }
+        .bg-orb-2 { width: 500px; height: 500px; background: var(--gradient-2); bottom: -150px; right: -150px; animation-delay: -7s; }
+        .bg-orb-3 { width: 400px; height: 400px; background: var(--gradient-3); top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: -14s; opacity: 0.3; }
+        @keyframes float {
+            0%,100%{ transform: translate(0,0) scale(1); }
+            33%{ transform: translate(30px,-30px) scale(1.05); }
+            66%{ transform: translate(-20px,20px) scale(0.95); }
+        }
+        .login-overlay {
+            position: fixed; inset: 0; background: rgba(15,12,41,0.95); backdrop-filter: blur(30px);
+            display: flex; justify-content: center; align-items: center; z-index: 1000;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        .login-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .login-card {
+            background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
+            border-radius: 24px; padding: 48px 40px; width: 90%; max-width: 420px; box-shadow: var(--glass-shadow);
+            text-align: center;
+        }
+        .login-card h2 { font-family: 'Crimson Pro', serif; font-size: 2rem; margin-bottom: 8px; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .login-subtitle { color: var(--text-muted); margin-bottom: 32px; }
+        .login-input {
+            width: 100%; padding: 16px 20px; margin-bottom: 20px; background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; color: var(--text-primary);
+            font-size: 1rem; outline: none; transition: all 0.3s;
+        }
+        .login-input:focus { background: rgba(255,255,255,0.1); border-color: rgba(102,126,234,0.6); box-shadow: 0 0 20px rgba(102,126,234,0.2); }
+        .login-btn {
+            width: 100%; padding: 16px; background: var(--gradient-1); color: white; border: none;
+            border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(102,126,234,0.4);
+        }
+        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(102,126,234,0.6); }
+        .error-msg { color: #ff6b6b; margin-top: 16px; padding: 12px; background: rgba(255,107,107,0.1); border-radius: 8px; border: 1px solid rgba(255,107,107,0.3); display: none; }
+
+        .main-wrapper { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 40px 20px; display: none; }
+        .main-wrapper.visible { display: block; animation: fadeIn 0.8s ease; }
+        @keyframes fadeIn { from{ opacity:0; transform:translateY(20px); } to{ opacity:1; transform:translateY(0); } }
+        .glass-container {
+            background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
+            border-radius: 28px; padding: 50px; box-shadow: var(--glass-shadow);
+        }
+        h1, h2, h3 { font-family: 'Crimson Pro', serif; font-weight: 600; margin-top: 2em; margin-bottom: 0.8em; line-height: 1.3; }
+        h1 { font-size: 2.2rem; background: var(--gradient-3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; margin-top: 0; padding-bottom: 0.5em; border-bottom: 2px solid rgba(255,255,255,0.1); }
+        h2 { font-size: 1.6rem; color: var(--text-primary); padding-left: 16px; border-left: 4px solid; border-image: var(--gradient-2) 1; }
+        h3 { font-size: 1.3rem; color: var(--text-secondary); font-weight: 500; }
+        p { margin: 1em 0; color: var(--text-secondary); text-align: justify; }
+        ul, ol { margin: 1em 0 1em 2em; color: var(--text-secondary); }
+        li { margin: 0.6em 0; }
+        ul li::marker { color: #667eea; }
+        .page-break { margin: 3em 0; padding: 20px 0; text-align: center; font-family: 'Crimson Pro', serif; font-style: italic; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); position: relative; }
+        .page-break::before, .page-break::after { content: '◆'; position: absolute; top: 50%; transform: translateY(-50%); color: #667eea; font-size: 0.5rem; }
+        .page-break::before { left: 30%; } .page-break::after { right: 30%; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 2em; padding-top: 1em; border-top: 1px solid rgba(255,255,255,0.1); }
+        .nav-link { color: #a5b4fc; text-decoration: none; font-weight: 600; padding: 8px 16px; border: 1px solid var(--glass-border); border-radius: 40px; transition: all 0.3s; }
+        .nav-link:hover { background: rgba(102,126,234,0.3); transform: translateY(-2px); }
+        .complement {
+            background: rgba(255,255,255,0.03); border-left: 4px solid #667eea; padding: 16px 20px; margin: 1.5em 0; border-radius: 12px;
+            font-style: italic; color: var(--text-secondary); box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .complement strong { color: #667eea; font-weight: 600; }
+        ::selection { background: rgba(102,126,234,0.4); color: white; }
+        @media (max-width: 768px) { .glass-container { padding: 30px 20px; } h1 { font-size:1.7rem; } h2 { font-size:1.3rem; } .page-break::before, .page-break::after { display:none; } }
+    </style>
+</head>
+<body>
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+
+    <!-- Login Overlay -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <h2>Accès au document</h2>
+            <p class="login-subtitle">Partie 8 – Lithosphère et géomorphologie</p>
+            <input type="password" id="passwordInput" class="login-input" placeholder="Mot de passe">
+            <button id="loginBtn" class="login-btn">Entrer</button>
+            <div id="errorMsg" class="error-msg">Mot de passe incorrect</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-wrapper" id="mainContent">
+        <div class="glass-container">
+            <!-- Navigation -->
+            <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+                <a href="index.html" class="nav-link">🏠 Sommaire</a>
+                <a href="part7.html" class="nav-link">⬅ Partie précédente</a>
+                <a href="part9.html" class="nav-link">➡ Partie suivante</a>
+            </div>
+
+            <!-- Contenu original des pages 36 à 38 (suite de la lithosphère) -->
+            <div class="page-break">Page 36</div>
+            <p>Sur les continents, les trois grands ensembles de relief sont généralement classés comme suit :</p>
+            <ol>
+                <li>Les montagnes : Ce sont des reliefs élevés et escarpés, souvent formés par le plissement ou le volcanisme. Exemples : l'Himalaya, les Alpes, les Andes.</li>
+                <li>Les plateaux : Ce sont des zones planes ou légèrement inclinées situées en altitude par rapport aux plaines environnantes. Exemples : le Plateau du Tibet, le Plateau Central des États-Unis.</li>
+                <li>Les plaines : Ce sont des étendues de terrain relativement plates et basses, souvent formées par l'érosion ou par des dépôts sédimentaires. Exemples : la Plaine du Gange en Inde, la Plaine Nord-Américaine.</li>
+            </ol>
+            <p>En ce qui concerne le rapport entre le système hydrographique et la structure géologique :</p>
+            <p>• Structure géologique et formation des bassins hydrographiques : La géologie sous-jacente influence la formation des bassins hydrographiques en déterminant la direction des pentes, la porosité des roches et la présence de failles ou de plis qui peuvent affecter l'écoulement des eaux.</p>
+            <p>• Répartition des ressources en eau : Les structures géologiques influencent la répartition des ressources en eau en contrôlant la présence et la circulation des aquifères, des sources et des rivières.</p>
+            <p>• Impact sur l’écologie et l’usage des terres : La géologie influence également la végétation, les sols et la biodiversité, ce qui à son tour affecte les utilisations humaines telles que l’agriculture et l’urbanisation.</p>
+            <p>En résumé, la géologie et la structure des terrains jouent un rôle crucial dans la formation et la dynamique des systèmes hydrographiques, en influençant la topographie, la disponibilité des ressources en eau et les écosystèmes associés.</p>
+            <h1>ECONOMIE A TRAVERS LES AGES</h1>
+            <h2>LA MONDIALISATION</h2>
+            <h2>Introduction</h2>
+            <p>La mondialisation est un processus multidimensionnel qui intègre les économies, les cultures, les technologies et les gouvernements du monde entier. Bien que ses origines remontent à l'Antiquité avec les premières routes commerciales, le terme "mondialisation" est devenu courant au XXe siècle, décrivant un phénomène d'interconnexion croissante à l'échelle mondiale. La mondialisation soulève de nombreux enjeux économiques, sociaux, culturels, politiques et environnementaux, dont l'importance ne cesse de croître dans un monde en constante évolution.</p>
+            <h2>I. Les aspects économiques de la mondialisation</h2>
+            <h2>A. La libéralisation des échanges</h2>
+            <p>La libéralisation des échanges commerciaux a été facilitée par des accords internationaux tels que ceux négociés sous l'égide de l'Organisation Mondiale du Commerce (OMC) et divers accords bilatéraux. Ces accords ont entraîné une réduction des barrières tarifaires et non tarifaires, augmentant ainsi le commerce international. Les entreprises peuvent désormais accéder à de nouveaux marchés et bénéficier d'économies d'échelle.</p>
+            <h2>B. La globalisation financière</h2>
+            <p>La globalisation financière se caractérise par une intégration accrue des marchés financiers mondiaux. Les institutions financières internationales, telles que le Fonds Monétaire International (FMI) et la Banque mondiale, jouent un rôle crucial en fournissant des financements et des conseils politiques aux pays en développement. Les flux de capitaux et les investissements directs étrangers (IDE) ont considérablement augmenté, permettant aux entreprises de financer leurs activités et de se développer à l'étranger.</p>
+
+            <div class="complement">
+                <strong>📚 Complément – Les trois types de reliefs continentaux</strong><br>
+                En géomorphologie, on distingue souvent les reliefs de plissement (montagnes jeunes comme l'Himalaya), les reliefs de faille (horsts et grabens), les reliefs volcaniques (volcans, plateaux de lave), les reliefs d'érosion (canyons, vallées) et les reliefs d'accumulation (plaines alluviales, deltas). Chaque type résulte de processus spécifiques (tectonique, volcanisme, érosion). (Source : « Géomorphologie de la France », Yvette Veyret, 2016)
+            </div>
+
+            <div class="page-break">Page 37</div>
+            <h2>C. Les multinationales</h2>
+            <p>Les entreprises multinationales sont des acteurs clés de la mondialisation. Elles exercent une influence significative sur l'économie mondiale en délocalisant leurs activités et en sous-traitant certaines de leurs opérations pour réduire les coûts. Ces pratiques peuvent cependant entraîner des pertes d'emplois dans les pays d'origine et des conditions de travail précaires dans les pays hôtes.</p>
+            <h2>II. Les aspects sociaux et culturels de la mondialisation</h2>
+            <h2>A. La diffusion culturelle</h2>
+            <p>La mondialisation a facilité la propagation des idées, des modes de vie et des cultures. Les technologies de l'information et de la communication, ainsi que les médias internationaux, ont joué un rôle central dans ce processus. Toutefois, cette diffusion peut conduire à une homogénéisation culturelle, où les cultures locales sont érodées par des influences étrangères, menaçant ainsi la diversité culturelle.</p>
+            <h2>B. Les migrations internationales</h2>
+            <p>Les mouvements migratoires sont un autre aspect important de la mondialisation. Les migrations peuvent être motivées par des raisons économiques, politiques ou environnementales. Elles apportent une diversité culturelle et contribuent à l'économie des pays d'accueil, mais posent également des défis en matière d'intégration et de gestion du multiculturalisme.</p>
+            <h2>C. Les inégalités sociales</h2>
+            <p>La mondialisation a exacerbé les inégalités sociales, tant au niveau international qu’à l’intérieur des pays. Les pays en développement peuvent profiter de la mondialisation pour stimuler leur croissance économique, mais ils risquent aussi de rester piégés dans des conditions de pauvreté. De même, les travailleurs des pays développés peuvent être confrontés à une concurrence accrue et à des pressions à la baisse sur les salaires et les conditions de travail.</p>
+            <h2>III. Les aspects politiques et environnementaux de la mondialisation</h2>
+            <h2>A. La gouvernance mondiale</h2>
+            <p>La mondialisation a créé la nécessité d'une gouvernance mondiale efficace pour gérer les problèmes transnationaux. Les organisations internationales comme l'ONU et le G20 jouent un rôle crucial dans la coordination des politiques et des actions à l'échelle mondiale. Cependant, la souveraineté nationale et les intérêts divergents des pays compliquent cette gouvernance.</p>
+            <h2>B. Les impacts environnementaux</h2>
+            <p>La mondialisation a des impacts significatifs sur l'environnement. L'augmentation du commerce et de la production industrielle entraîne une exploitation accrue des ressources naturelles et une hausse des émissions de gaz à effet de serre, contribuant ainsi au changement climatique. La gestion durable des ressources et la réduction de la pollution sont devenues des priorités mondiales.</p>
+            <h2>C. Les mouvements de résistance</h2>
+            <p>Les mouvements de résistance à la mondialisation ont émergé en réponse aux effets négatifs perçus du processus. Ces mouvements critiquent la domination des multinationales, l'injustice sociale et les dommages environnementaux. Ils proposent des alternatives telles que le localisme et l'économie solidaire pour promouvoir un développement plus équitable et durable.</p>
+
+            <div class="complement">
+                <strong>📚 Complément – Altermondialisme</strong><br>
+                Le mouvement altermondialiste (ou altermondialisation) émerge dans les années 1990 pour critiquer la mondialisation libérale et proposer des alternatives (commerce équitable, souveraineté alimentaire, droits des travailleurs). Les forums sociaux mondiaux (Porto Alegre, 2001) en sont une expression. (Source : « Géographie de la mondialisation », Laurent Carroué, 2019)
+            </div>
+
+            <div class="page-break">Page 38</div>
+            <h2>Conclusion</h2>
+            <p>La mondialisation est un phénomène complexe aux multiples facettes, ayant des impacts profonds sur les économies, les sociétés, les cultures, la politique et l'environnement. Si elle offre des opportunités de croissance et de développement, elle pose également des défis considérables en termes d'inégalités, de gouvernance et de durabilité. La réflexion sur l'avenir de la mondialisation doit tenir compte de ces divers aspects et rechercher des solutions équilibrées pour un développement harmonieux et inclusif.</p>
+            <h2>LES TRENTE GLORIEUSES</h2>
+            <h2>Introduction</h2>
+            <p>Les Trente Glorieuses désignent la période de prospérité économique et de transformations sociales en France, allant de 1945 à 1975. Ces trois décennies marquent un moment unique dans l'histoire contemporaine française, caractérisé par une croissance économique rapide, une amélioration des conditions de vie et des changements profonds dans la société. Ce terme, popularisé par l'économiste Jean Fourastié, fait référence à une période de reconstruction et de modernisation intense après la Seconde Guerre mondiale. Cette dissertation analysera les principaux facteurs de cette croissance, ses impacts sociaux et économiques, ainsi que les raisons de son déclin.</p>
+            <h2>I. Les facteurs de la croissance économique des Trente Glorieuses</h2>
+            <h2>A. La reconstruction et l'aide internationale</h2>
+            <p>Après la Seconde Guerre mondiale, la France a entrepris une vaste campagne de reconstruction des infrastructures détruites. Le Plan Marshall, une aide financière et matérielle fournie par les États-Unis, a joué un rôle crucial dans cette reconstruction. Cette aide a permis de relancer l'économie et de moderniser les équipements industriels.</p>
+            <h2>B. L'industrialisation et la modernisation</h2>
+            <p>La période des Trente Glorieuses est marquée par une forte industrialisation. Le développement de nouveaux secteurs tels que la chimie, l'automobile et l'électronique a transformé l'économie française. La modernisation des techniques de production et l'introduction de nouvelles technologies ont amélioré la productivité. Les entreprises publiques, telles que EDF et Renault, ont également contribué à cette dynamique.</p>
+            <h2>C. Les politiques économiques et sociales</h2>
+            <p>Les politiques économiques keynésiennes mises en place par l'État ont favorisé la croissance. L'intervention de l'État dans l'économie, à travers des investissements massifs dans les infrastructures et la planification économique, a stimulé l'activité économique. De plus, les politiques sociales, comme la mise en place de la Sécurité sociale et l'amélioration des conditions de travail, ont renforcé le pouvoir d'achat des ménages et soutenu la consommation.</p>
+
+            <!-- Navigation -->
+            <div class="navigation">
+                <a href="index.html" class="nav-link">🏠 Sommaire</a>
+                <a href="part7.html" class="nav-link">⬅ Partie précédente</a>
+                <a href="part9.html" class="nav-link">➡ Partie suivante</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PASSWORD = "Armadel";
+        const loginOverlay = document.getElementById('loginOverlay');
+        const mainContent = document.getElementById('mainContent');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMsg = document.getElementById('errorMsg');
+
+        if (sessionStorage.getItem('auth') === PASSWORD) {
+            loginOverlay.classList.add('hidden');
+            mainContent.classList.add('visible');
+        }
+
+        function checkPassword() {
+            if (passwordInput.value === PASSWORD) {
+                sessionStorage.setItem('auth', PASSWORD);
+                loginOverlay.classList.add('hidden');
+                mainContent.classList.add('visible');
+            } else {
+                errorMsg.style.display = 'block';
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        }
+
+        loginBtn.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
+        passwordInput.addEventListener('input', () => { errorMsg.style.display = 'none'; });
+    </script>
+</body>
+</html>

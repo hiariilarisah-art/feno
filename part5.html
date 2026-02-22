@@ -1,0 +1,255 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Géographie · Partie 5 – Cartographie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* Mêmes styles que précédemment */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --glass-bg: rgba(255,255,255,0.08);
+            --glass-border: rgba(255,255,255,0.18);
+            --glass-shadow: 0 8px 32px rgba(0,0,0,0.37);
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255,255,255,0.9);
+            --text-muted: rgba(255,255,255,0.6);
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .bg-orb { position: fixed; border-radius: 50%; filter: blur(100px); opacity: 0.5; pointer-events: none; z-index: 0; animation: float 20s ease-in-out infinite; }
+        .bg-orb-1 { width: 600px; height: 600px; background: var(--gradient-1); top: -200px; left: -200px; }
+        .bg-orb-2 { width: 500px; height: 500px; background: var(--gradient-2); bottom: -150px; right: -150px; animation-delay: -7s; }
+        .bg-orb-3 { width: 400px; height: 400px; background: var(--gradient-3); top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: -14s; opacity: 0.3; }
+        @keyframes float {
+            0%,100%{ transform: translate(0,0) scale(1); }
+            33%{ transform: translate(30px,-30px) scale(1.05); }
+            66%{ transform: translate(-20px,20px) scale(0.95); }
+        }
+        .login-overlay {
+            position: fixed; inset: 0; background: rgba(15,12,41,0.95); backdrop-filter: blur(30px);
+            display: flex; justify-content: center; align-items: center; z-index: 1000;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        .login-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .login-card {
+            background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
+            border-radius: 24px; padding: 48px 40px; width: 90%; max-width: 420px; box-shadow: var(--glass-shadow);
+            text-align: center;
+        }
+        .login-card h2 { font-family: 'Crimson Pro', serif; font-size: 2rem; margin-bottom: 8px; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .login-subtitle { color: var(--text-muted); margin-bottom: 32px; }
+        .login-input {
+            width: 100%; padding: 16px 20px; margin-bottom: 20px; background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; color: var(--text-primary);
+            font-size: 1rem; outline: none; transition: all 0.3s;
+        }
+        .login-input:focus { background: rgba(255,255,255,0.1); border-color: rgba(102,126,234,0.6); box-shadow: 0 0 20px rgba(102,126,234,0.2); }
+        .login-btn {
+            width: 100%; padding: 16px; background: var(--gradient-1); color: white; border: none;
+            border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(102,126,234,0.4);
+        }
+        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(102,126,234,0.6); }
+        .error-msg { color: #ff6b6b; margin-top: 16px; padding: 12px; background: rgba(255,107,107,0.1); border-radius: 8px; border: 1px solid rgba(255,107,107,0.3); display: none; }
+
+        .main-wrapper { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 40px 20px; display: none; }
+        .main-wrapper.visible { display: block; animation: fadeIn 0.8s ease; }
+        @keyframes fadeIn { from{ opacity:0; transform:translateY(20px); } to{ opacity:1; transform:translateY(0); } }
+        .glass-container {
+            background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
+            border-radius: 28px; padding: 50px; box-shadow: var(--glass-shadow);
+        }
+        h1, h2, h3 { font-family: 'Crimson Pro', serif; font-weight: 600; margin-top: 2em; margin-bottom: 0.8em; line-height: 1.3; }
+        h1 { font-size: 2.2rem; background: var(--gradient-3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; margin-top: 0; padding-bottom: 0.5em; border-bottom: 2px solid rgba(255,255,255,0.1); }
+        h2 { font-size: 1.6rem; color: var(--text-primary); padding-left: 16px; border-left: 4px solid; border-image: var(--gradient-2) 1; }
+        h3 { font-size: 1.3rem; color: var(--text-secondary); font-weight: 500; }
+        p { margin: 1em 0; color: var(--text-secondary); text-align: justify; }
+        ul, ol { margin: 1em 0 1em 2em; color: var(--text-secondary); }
+        li { margin: 0.6em 0; }
+        ul li::marker { color: #667eea; }
+        .page-break { margin: 3em 0; padding: 20px 0; text-align: center; font-family: 'Crimson Pro', serif; font-style: italic; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); position: relative; }
+        .page-break::before, .page-break::after { content: '◆'; position: absolute; top: 50%; transform: translateY(-50%); color: #667eea; font-size: 0.5rem; }
+        .page-break::before { left: 30%; } .page-break::after { right: 30%; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 2em; padding-top: 1em; border-top: 1px solid rgba(255,255,255,0.1); }
+        .nav-link { color: #a5b4fc; text-decoration: none; font-weight: 600; padding: 8px 16px; border: 1px solid var(--glass-border); border-radius: 40px; transition: all 0.3s; }
+        .nav-link:hover { background: rgba(102,126,234,0.3); transform: translateY(-2px); }
+        .complement {
+            background: rgba(255,255,255,0.03); border-left: 4px solid #f093fb; padding: 16px 20px; margin: 1.5em 0; border-radius: 12px;
+            font-style: italic; color: var(--text-secondary); box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .complement strong { color: #f093fb; font-weight: 600; }
+        ::selection { background: rgba(102,126,234,0.4); color: white; }
+        @media (max-width: 768px) { .glass-container { padding: 30px 20px; } h1 { font-size:1.7rem; } h2 { font-size:1.3rem; } .page-break::before, .page-break::after { display:none; } }
+    </style>
+</head>
+<body>
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+
+    <!-- Login Overlay -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <h2>Accès au document</h2>
+            <p class="login-subtitle">Partie 5 – Cartographie</p>
+            <input type="password" id="passwordInput" class="login-input" placeholder="Mot de passe">
+            <button id="loginBtn" class="login-btn">Entrer</button>
+            <div id="errorMsg" class="error-msg">Mot de passe incorrect</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-wrapper" id="mainContent">
+        <div class="glass-container">
+            <!-- Navigation -->
+            <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+                <a href="index.html" class="nav-link">🏠 Sommaire</a>
+                <a href="part4.html" class="nav-link">⬅ Partie précédente</a>
+                <a href="part6.html" class="nav-link">➡ Partie suivante</a>
+            </div>
+
+            <!-- Contenu original des pages 20 à 22 (suite de la cartographie) -->
+            <div class="page-break">Page 20</div>
+            <!-- Nous sommes déjà dans la continuité de la page 20, donc nous reprenons là où la partie 4 s'est arrêtée -->
+            <h2>7. Carte isoplèthe :</h2>
+            <p>o Définition : Montre les lignes d'égale valeur (isoplèthes) pour des phénomènes continus, comme les courbes de niveau (isohypses), les isothermes (températures égales), ou les isobares (pressions atmosphériques égales). o Usage : Utilisée en météorologie, climatologie, et topographie. 8. Carte de flux : o Définition : Illustre les mouvements ou les flux de personnes, de biens, d'informations, ou d'autres variables entre différents points géographiques. o Usage : Utilisée pour visualiser les migrations, les échanges commerciaux, les réseaux de transport, et les communications. 9. Carte de densité : o Définition : Montre la concentration d'un phénomène par unité de surface, comme la densité de population ou la densité de végétation. o Usage : Utilisée en géographie humaine, études urbaines, et gestion des ressources naturelles. 10. Carte cadastrale : o Définition : Représente les limites des propriétés foncières, incluant les parcelles, les bâtiments, et les infrastructures associées. o Usage : Utilisée pour la gestion des propriétés, la planification urbaine, et les transactions immobilières.</p>
+            <h2>IFES</h2>
+            <h2>IFES</h2>
+            <h2>Qu’est-ce que l’inflation ?</h2>
+            <p>1.1. Définition</p>
+            <p>L’inflation correspond à une hausse continue du niveau général des prix à l’intérieur d’un espace donné. Elle se distingue donc :</p>
+            <p>– d’une part, des hausses sectorielles de certains prix ;</p>
+            <p>– d’autre part, des hausses de prix généralisées mais sans lendemain</p>
+            <h2>1. Comment expliquer l’inflation ?</h2>
+            <p>On peut expliquer les périodes d’inflation de plusieurs façons. Nous retiendrons ici les quatre grands types d’explications économiques du phénomène.</p>
+            <h2>2.1. L’inflation monétaire</h2>
+            <p>Pour les économistes monétaristes, l’inflation est un phénomène purement monétaire. Pour eux, la monnaie n’est qu’un voile : elle n’a pas (ou seulement à très court terme) d’influence sur le revenu réel de l’économie. Elle influence seulement le niveau des prix.</p>
+            <h2>2. 2. L’inflation par la demande</h2>
+            <p>On peut également expliquer les phénomènes inflationnistes par un excès durable de la demande réelle par rapport à l’offre réelle. Cette analyse d’excès de demande est due à Keynes. L’augmentation de la demande peut provenir de l’accroissement des dépenses publiques ou de l’entrée de revenus supplémentaires sur le territoire (excédent de balance commerciale, entrée de capitaux). Elle peut également être due à l’accroissement des dépenses de consommation des ménages, du fait de l’apparition de nouveaux produits, d’une modification du système de prix relatifs, d’un enrichissement de certaines catégories sociales leur permettant d’avoir accès à de nouveaux biens, d’un changement dans les anticipations (prix, revenus, rémunération de l’épargne).</p>
+            <h2>3. 2.3. L’inflation par les coûts</h2>
+            <p>L’inflation peut être également expliquée par une croissance de la rémunération des facteurs de production supérieure à celle de leur productivité. L’augmentation de la rémunération des facteurs de production conduit les entreprises à augmenter le prix des produits qu’ils vendent : – à d’autres entreprises qui elles-mêmes élèveront leurs prix ; – aux consommateurs qui revendiquent alors de nouvelles hausses de rémunération</p>
+            <p>La hausse de l’inflation a Madagascar en 2022 : causes, conséquences et perspectives pour l’avenir</p>
+            <h2>1 Introduction</h2>
+            <p>Depuis plusieurs mois, Madagascar est confronté `a une inflation `a deux chiffres, avec une</p>
+
+            <div class="complement">
+                <strong>📚 Complément – Les types de cartes</strong><br>
+                La cartographie moderne distingue les cartes à grande échelle (détail, ex. cadastre) et les cartes à petite échelle (vue d’ensemble). Les cartes thématiques utilisent des variables visuelles (couleur, taille, forme) pour représenter des données qualitatives ou quantitatives. Les SIG (systèmes d’information géographique) permettent aujourd’hui de superposer et d’analyser ces différentes couches d’information. (Source : « Sémiologie graphique », Jacques Bertin, 1967, rééd. 2020)
+            </div>
+
+            <div class="page-break">Page 21</div>
+            <p>hausse des prix de l’ordre de 10,8% en glissement annuel en novembre 2022 par rapport ‘a la même période l’année précédente. Cette situation a des conséquences importantes sur le coût de la vie pour les ménages malgaches, qui doivent faire face ‘a une augmentation des prix des produits de première nécessité’ et des services.</p>
+            <p>Elle trouve son origine dans un contexte international marqué  par une envolée des prix  des produits agricoles et énergétiques, en raison notamment de la tension entre la Russie  et l’Ukraine depuis février 2022. Madagascar, pays fortement dépendant du pétrole, a et e  contraint d’ajuster ses prix ‘a la pompe ‘a la hausse, ce qui a eu un impact sur l’ensemble de  l’ économie.</p>
+            <p>Face ‘a cette situation, l’‘Etat malagasy a pris des mesures pour protéger les consomma- teurs et limiter l’impact de l’inflation sur le pouvoir d’achat. De son coté, la Banque Centrale de Madagascar (Banky Foiben’i Madagasikara - BFM) a également mis en place des poli- tiques monétaires pour maitriser l’inflation.</p>
+            <p>Dans ce contexte, cette analyse se propose d’identifier les caractéristiques de l’inflation  ‘a Madagascar en 2022, en évaluant les causes et les conséquences de cette situation, ainsi  que les mesures prises par les autorités pour y faire face. Nous examinerons également les  mesures mises en œuvre par la BFM pour contrôler l’inflation, en évaluant leur efficacité e face  ‘a la situation actuelle.</p>
+            <h2>2 Les caractéristiques de l’inflation ‘a Madagascar en 2022</h2>
+            <h2>2.1 Les causes de l’inflation ‘a Madagascar en 2022</h2>
+            <p>L’inflation ‘a Madagascar en 2022 est en grande partie due ‘a des facteurs externes tels que l’impact de la situation géopolitique mondiale sur les prix des produits énergétiques. En effet, Madagascar étant un pays extrêmement dépendant des importations de pétrole, les augmentations des prix sur les marchés mondiaux ont directement affect e le cout de la vie des ménages malgaches. La tension entre la Russie et l’Ukraine qui a commencé en février 2022 a entrane une flambée des prix du pétrole sur les marchés mondiaux, ce qui a eu un impact direct sur les prix des produits pétroliers ‘a Madagascar.</p>
+            <p>Outre les facteurs externes, il y a également des facteurs internes qui ont contribué  ‘a l’in- flation ‘a Madagascar. Parmi ceux-ci, on peut citer la d’évaluation de la monnaie malgache, l’ariary, par rapport au dollar américain et ‘a l’euro. Cette d’évaluation a eu un impact direct sur les prix des produits import es, ce qui a entraîné  une augmentation des prix sur le marché intérieur.</p>
+            <p>En outre, la pandémie de COVID-19 a également eu un impact sur l’économie malgache, entrainant une baisse de la production et une augmentation des coûts de production pour de nombreuses entreprises. Cette situation a également contribue ‘a la hausse des prix des produits sur le marché intérieur.</p>
+            <p>Enfin, la faiblesse des investissements dans l’agriculture et l’industrie manufacturière ‘a Madagascar a également eu un impact sur l’inflation. La production nationale de biens et services est insuffisante pour répondre ‘a la demande, ce qui oblige le pays ‘a dépendre des importations pour répondre aux besoins de la population. Cette dépendance accrue aux importations contribue également ‘a la hausse des prix des produits sur le marché intérieur.</p>
+            <h2>2.2 Les conséquences de l’inflation ‘a Madagascar en 2022</h2>
+            <p>L’inflation ‘a Madagascar en 2022 a eu plusieurs conséquences négatives sur la population, en particulier sur le coût de la vie pour les ménages.</p>
+            <p>Tout d’abord, l’inflation a entraîné une augmentation significative des prix des produits alimentaires de base, tels que le riz, les légumes, les fruits et la viande. Les ménages ont dû faire face ‘a des dépenses plus élevées pour se nourrir, ce qui a réduit leur pouvoir d’achat et leur capacité à épargner.</p>
+            <p>Elle a également augmenté les coûts des biens import es, tels que les carburants, les médicaments et les produits électroniques. Les consommateurs ont donc d’u payer plus cher pour ces produits, ce qui a eu un impact sur leur budget mensuel.</p>
+            <p>Par ailleurs, elle a également entrainé  une augmentation des coûts de production pour les entreprises, notamment en raison de l’augmentation des prix des matières premières et de l’ énergie. Cela a eu un impact sur les prix des produits locaux, qui sont devenus plus chers pour les consommateurs.</p>
+            <p>Enfin, elle eut un impact sur le taux d’intérêt, qui a augmenté e pour enrayer sa progression. Cela a eu un impact négatif sur les emprunteurs, qui ont du payer plus cher pour leurs prêts, y compris les prêts immobiliers et les prêts étudiants.</p>
+            <p>Dans l’ensemble, l’inflation ‘a Madagascar en 2022 a eu un impact significatif sur le coût</p>
+
+            <div class="page-break">Page 22</div>
+            <p>de la vie pour les ménages, réduisant leur pouvoir d’achat et leur capacité à épargner. Les consommateurs ont dû faire face `a des dépenses plus élevées pour se nourrir et acheter des produits importés, tandis que les entreprises ont d’u augmenter leurs prix pour compenser les coûts de production plus élevés.</p>
+            <p>Dans l’initiation aux faits économiques et sociaux. définir : le politiques économique ,puis donner ses objectifs et après les différentes politique économique 2/2</p>
+            <h2>Définition de la Politique Économique</h2>
+            <p>Politique économique : Ensemble des mesures prises par les autorités publiques (gouvernement, banque centrale, etc.) pour influencer et orienter l'économie d'un pays. Ces mesures visent à atteindre certains objectifs économiques et sociaux, en utilisant divers instruments et actions.</p>
+            <h2>Objectifs de la Politique Économique</h2>
+            <ol>
+                <li>Stabilité économique : Maintenir la stabilité des prix (contrôle de l'inflation) et stabiliser les cycles économiques pour éviter les récessions et les booms excessifs.</li>
+                <li>Croissance économique : Favoriser une croissance économique soutenue et durable, augmentant ainsi la production de biens et services dans l'économie.</li>
+                <li>Plein emploi : Réduire le chômage et maximiser l'emploi dans l'économie, assurant ainsi que tous ceux qui veulent travailler puissent trouver un emploi.</li>
+                <li>Équilibre extérieur : Assurer un équilibre entre les importations et les exportations, ainsi que stabiliser la balance des paiements pour éviter des déficits ou des excédents trop importants.</li>
+                <li>Répartition équitable des revenus : Promouvoir une distribution plus équitable des revenus et des richesses pour réduire les inégalités économiques et sociales.</li>
+                <li>Développement durable : Encourager une utilisation durable des ressources naturelles et réduire l'impact environnemental des activités économiques.</li>
+            </ol>
+            <h2>Différentes Politiques Économiques</h2>
+            <h2>1. Politique budgétaire :</h2>
+            <p>o Définition : Utilisation des dépenses publiques et de la fiscalité pour influencer l'économie.</p>
+            <p>o Instruments : Budget de l'État, taxes, impôts, dépenses publiques, subventions, etc.</p>
+            <p>o Objectifs : Stimuler la demande globale, redistribuer les revenus, financer des projets d'infrastructure, etc.</p>
+            <h2>2. Politique monétaire :</h2>
+            <p>o Définition : Gestion de l'offre de monnaie et des taux d'intérêt par la banque centrale pour contrôler l'inflation et stabiliser la monnaie.</p>
+            <p>o Instruments : Taux d'intérêt, réserves obligatoires, opérations sur le marché ouvert, etc.</p>
+            <p>o Objectifs : Contrôler l'inflation, stabiliser la monnaie, promouvoir la croissance économique, etc.</p>
+            <h2>3. Politique de change :</h2>
+            <p>o Définition : Régulation du taux de change et des réserves de devises pour influencer les exportations et les importations.</p>
+            <p>o Instruments : Intervention sur le marché des changes, ajustement des taux de change, etc.</p>
+            <p>o Objectifs : Maintenir la stabilité du taux de change, équilibrer la balance des paiements, etc.</p>
+            <h2>4. Politique de l'emploi :</h2>
+            <p>o Définition : Mesures visant à promouvoir le plein emploi et à réduire le chômage.</p>
+            <p>o Instruments : Programmes de formation professionnelle, incitations à l'embauche, législation du travail, etc.</p>
+            <p>o Objectifs : Réduire le chômage, améliorer la qualité de l'emploi, etc.</p>
+            <h2>5. Politique industrielle :</h2>
+            <p>o Définition : Actions visant à développer et soutenir certains secteurs industriels stratégiques.</p>
+            <p>o Instruments : Subventions, prêts préférentiels, allégements fiscaux, régulations, etc.</p>
+            <p>o Objectifs : Stimuler l'innovation, améliorer la compétitivité, créer des emplois, etc.</p>
+            <h2>6. Politique de redistribution :</h2>
+
+            <div class="complement">
+                <strong>📚 Complément – Les écoles de pensée en économie</strong><br>
+                Les politiques économiques s’inspirent de différents courants : keynésianisme (intervention publique), monétarisme (régulation de la masse monétaire), libéralisme (marché autorégulateur). Aujourd’hui, une approche pragmatique combine souvent ces outils. (Source : « Histoire de l’analyse économique », Joseph Schumpeter, 1954)
+            </div>
+
+            <!-- Navigation -->
+            <div class="navigation">
+                <a href="index.html" class="nav-link">🏠 Sommaire</a>
+                <a href="part4.html" class="nav-link">⬅ Partie précédente</a>
+                <a href="part6.html" class="nav-link">➡ Partie suivante</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PASSWORD = "Armadel";
+        const loginOverlay = document.getElementById('loginOverlay');
+        const mainContent = document.getElementById('mainContent');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMsg = document.getElementById('errorMsg');
+
+        if (sessionStorage.getItem('auth') === PASSWORD) {
+            loginOverlay.classList.add('hidden');
+            mainContent.classList.add('visible');
+        }
+
+        function checkPassword() {
+            if (passwordInput.value === PASSWORD) {
+                sessionStorage.setItem('auth', PASSWORD);
+                loginOverlay.classList.add('hidden');
+                mainContent.classList.add('visible');
+            } else {
+                errorMsg.style.display = 'block';
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        }
+
+        loginBtn.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
+        passwordInput.addEventListener('input', () => { errorMsg.style.display = 'none'; });
+    </script>
+</body>
+</html>
