@@ -1,0 +1,262 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Géographie · Partie 1 – Atmosphère</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* Mêmes styles que dans l'index (repris intégralement) */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --glass-bg: rgba(255,255,255,0.08);
+            --glass-border: rgba(255,255,255,0.18);
+            --glass-shadow: 0 8px 32px rgba(0,0,0,0.37);
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --bg-dark: #0f0c29;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255,255,255,0.9);
+            --text-muted: rgba(255,255,255,0.6);
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .bg-orb { position: fixed; border-radius: 50%; filter: blur(100px); opacity: 0.5; pointer-events: none; z-index: 0; animation: float 20s ease-in-out infinite; }
+        .bg-orb-1 { width: 600px; height: 600px; background: var(--gradient-1); top: -200px; left: -200px; }
+        .bg-orb-2 { width: 500px; height: 500px; background: var(--gradient-2); bottom: -150px; right: -150px; animation-delay: -7s; }
+        .bg-orb-3 { width: 400px; height: 400px; background: var(--gradient-3); top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: -14s; opacity: 0.3; }
+        @keyframes float {
+            0%,100%{ transform: translate(0,0) scale(1); }
+            33%{ transform: translate(30px,-30px) scale(1.05); }
+            66%{ transform: translate(-20px,20px) scale(0.95); }
+        }
+        .login-overlay {
+            position: fixed; inset: 0; background: rgba(15,12,41,0.95); backdrop-filter: blur(30px);
+            display: flex; justify-content: center; align-items: center; z-index: 1000;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        .login-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .login-card {
+            background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
+            border-radius: 24px; padding: 48px 40px; width: 90%; max-width: 420px; box-shadow: var(--glass-shadow);
+            text-align: center;
+        }
+        .login-card h2 { font-family: 'Crimson Pro', serif; font-size: 2rem; margin-bottom: 8px; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .login-subtitle { color: var(--text-muted); margin-bottom: 32px; }
+        .login-input {
+            width: 100%; padding: 16px 20px; margin-bottom: 20px; background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; color: var(--text-primary);
+            font-size: 1rem; outline: none; transition: all 0.3s;
+        }
+        .login-input:focus { background: rgba(255,255,255,0.1); border-color: rgba(102,126,234,0.6); box-shadow: 0 0 20px rgba(102,126,234,0.2); }
+        .login-btn {
+            width: 100%; padding: 16px; background: var(--gradient-1); color: white; border: none;
+            border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(102,126,234,0.4);
+        }
+        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(102,126,234,0.6); }
+        .error-msg { color: #ff6b6b; margin-top: 16px; padding: 12px; background: rgba(255,107,107,0.1); border-radius: 8px; border: 1px solid rgba(255,107,107,0.3); display: none; }
+
+        .main-wrapper { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 40px 20px; display: none; }
+        .main-wrapper.visible { display: block; animation: fadeIn 0.8s ease; }
+        @keyframes fadeIn { from{ opacity:0; transform:translateY(20px); } to{ opacity:1; transform:translateY(0); } }
+        .glass-container {
+            background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
+            border-radius: 28px; padding: 50px; box-shadow: var(--glass-shadow);
+        }
+        h1, h2, h3 { font-family: 'Crimson Pro', serif; font-weight: 600; margin-top: 2em; margin-bottom: 0.8em; line-height: 1.3; }
+        h1 { font-size: 2.2rem; background: var(--gradient-3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; margin-top: 0; padding-bottom: 0.5em; border-bottom: 2px solid rgba(255,255,255,0.1); }
+        h2 { font-size: 1.6rem; color: var(--text-primary); padding-left: 16px; border-left: 4px solid; border-image: var(--gradient-2) 1; }
+        h3 { font-size: 1.3rem; color: var(--text-secondary); font-weight: 500; }
+        p { margin: 1em 0; color: var(--text-secondary); text-align: justify; }
+        ul, ol { margin: 1em 0 1em 2em; color: var(--text-secondary); }
+        li { margin: 0.6em 0; }
+        ul li::marker { color: #667eea; }
+        .page-break { margin: 3em 0; padding: 20px 0; text-align: center; font-family: 'Crimson Pro', serif; font-style: italic; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); position: relative; }
+        .page-break::before, .page-break::after { content: '◆'; position: absolute; top: 50%; transform: translateY(-50%); color: #667eea; font-size: 0.5rem; }
+        .page-break::before { left: 30%; } .page-break::after { right: 30%; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 2em; padding-top: 1em; border-top: 1px solid rgba(255,255,255,0.1); }
+        .nav-link { color: #a5b4fc; text-decoration: none; font-weight: 600; padding: 8px 16px; border: 1px solid var(--glass-border); border-radius: 40px; transition: all 0.3s; }
+        .nav-link:hover { background: rgba(102,126,234,0.3); transform: translateY(-2px); }
+        .complement {
+            background: rgba(255,255,255,0.03); border-left: 4px solid #f093fb; padding: 16px 20px; margin: 1.5em 0; border-radius: 12px;
+            font-style: italic; color: var(--text-secondary); box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .complement strong { color: #f093fb; font-weight: 600; }
+        ::selection { background: rgba(102,126,234,0.4); color: white; }
+        @media (max-width: 768px) { .glass-container { padding: 30px 20px; } h1 { font-size:1.7rem; } h2 { font-size:1.3rem; } .page-break::before, .page-break::after { display:none; } }
+    </style>
+</head>
+<body>
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+
+    <!-- Login Overlay -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <h2>Accès au document</h2>
+            <p class="login-subtitle">Partie 1 – Atmosphère</p>
+            <input type="password" id="passwordInput" class="login-input" placeholder="Mot de passe">
+            <button id="loginBtn" class="login-btn">Entrer</button>
+            <div id="errorMsg" class="error-msg">Mot de passe incorrect</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-wrapper" id="mainContent">
+        <div class="glass-container">
+            <!-- Navigation vers les autres parties -->
+            <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+                <a href="index.html" class="nav-link">🏠 Sommaire</a>
+                <a href="part2.html" class="nav-link">➡ Partie suivante</a>
+            </div>
+
+            <!-- Contenu original des pages 1 à 3 (avec compléments insérés) -->
+            <div class="page-break">Page 1</div>
+            <p>TSY AZO ADIKA NA ALAIN-TAHAKA 2024-2025</p>
+            <p>1<br>RESPONSABLE : RANDRIAMANANTSOA Manambina JASIELA<br>atmosphe re<br>L’atmosphère : Définition et caractéristiques en géographie**<br>l’atmosphère désigne l’enveloppe gazeuse** entourant la Terre, maintenue par la gravité terrestre. Elle<br>constitue une interface dynamique entre la surface planétaire et l’espace extraterrestre, jouant un rôle central<br>dans les processus climatiques, météorologiques et écologiques.<br>Composition chimique<br>L’air atmosphérique est composée :<br>Teneur invariable % en volume.<br>- Diazote (N₂) : 78 ,8<br>- Dioxygène (O₂) : 20,95<br>- Argon (Ar) : 0,93 .<br>- Néon (Ne) :0,0018<br>-Hélium (He) :0 ,0005<br>-Hydrogène (H2) : 0,00006<br>-Xenon (Xe) :0,000009<br>Teneur variable % en volume<br>-Vapeur d’eau 0 à 4<br>-dioxyde de carbone (CO2) : 0,037<br>-Méthane(CH4) :0,00017<br>-Oxyde d’azote(N2O) :0,00003<br>-Ozone (O 3) .0,00003<br>-Particule solide 0,000005<br>Chloro-Fluoro-Carbone (CFC) :0,00000002</p>
+            
+            <!-- Complément : rôles des principaux gaz -->
+            <div class="complement">
+                <strong>📚 Complément – Rôle des gaz atmosphériques</strong><br>
+                Le diazote (N₂) est un gaz inerte qui dilue l’oxygène et limite la combustion. Le dioxygène (O₂) est essentiel à la respiration des êtres vivants et à la combustion. L’argon est un gaz noble sans réactivité chimique. La vapeur d’eau (H₂O) est le principal gaz à effet de serre naturel et joue un rôle clé dans le cycle hydrologique. Le dioxyde de carbone (CO₂) et le méthane (CH₄) sont des gaz à effet de serre d’origine naturelle et anthropique, responsables du réchauffement climatique. L’ozone (O₃) stratosphérique protège la vie des rayons ultraviolets, tandis que l’ozone troposphérique est un polluant. (Source : Organisation météorologique mondiale, 2023)
+            </div>
+
+            <p>Structure verticale<br>L’atmosphère est stratifiée en couches distinctes, définies par des gradients de température et des propriétés<br>physico-chimiques :<br>1. Troposphère (0 à 8-15 km) : Couche la plus basse, siège des phénomènes météorologiques. La température<br>décroît avec l’altitude.<br>2. Stratosphère (jusqu’à ~50 km) : Contient la couche d’ozone (O₃), absorbant les UV. La température y<br>augmente avec l’altitude.<br>3. Mésosphère(jusqu’à ~85 km) : Température décroissante, lieu de désintégration des météores.<br>4. Thermosphère (jusqu’à ~600 km) : Température très élevée due à l’absorption des rayonnements solaires.<br>5. Exosphère: Transition vers l’espace, où les molécules gazeuses s’échappent.</p>
+
+            <div class="complement">
+                <strong>📚 Complément – Pourquoi la température varie-t-elle dans chaque couche ?</strong><br>
+                Dans la troposphère, le refroidissement avec l’altitude est dû à la diminution de la pression et à l’éloignement de la source de chaleur (surface terrestre). Dans la stratosphère, l’augmentation de température résulte de l’absorption du rayonnement UV par l’ozone. Dans la mésosphère, le refroidissement est lié à la faible densité et au rayonnement infrarouge émis par le CO₂. Dans la thermosphère, l’absorption des rayons X et UV extrêmes par les atomes d’oxygène élève la température jusqu’à 1500°C (mais la sensation de chaleur est nulle en raison de la très faible densité). (D’après « Physique de l’atmosphère », Guy Brasseur, 2020)
+            </div>
+
+            <p>1. Gaz carbonique (CO₂):<br>Le gaz carbonique, ou dioxyde de carbone, est un gaz composé d'un atome de carbone et de deux atomes<br>d'oxygène. Il est naturellement présent dans l'atmosphère et joue un rôle crucial dans le cycle du carbone. C'est<br>également un **gaz à effet de serre**, contribuant au réchauffement climatique.<br>2. **Gaz à effet de serre** :<br>Les gaz à effet de serre (GES) sont des gaz qui absorbent et réémettent une partie des rayons infrarouges émis<br>par la Terre, contribuant ainsi à retenir la chaleur dans l'atmosphère. Les principaux GES sont la vapeur d'eau<br>(H₂O), le dioxyde de carbone (CO₂), le méthane (CH₄) et le protoxyde d'azote (N₂O).<br>3. **Chaleur latente** :<br>La chaleur latente est l'énergie absorbée ou libérée par une substance lors d'un changement de phase (par<br>exemple, de liquide à gaz ou de gaz à liquide) sans changement de température. Par exemple, l'évaporation de<br>l'eau absorbe de la chaleur, tandis que la condensation en libère.<br>4. **Zone de convergence intertropicale (ZCIT)** :</p>
+
+            <div class="complement">
+                <strong>📚 Complément – Chaleur latente et dynamique atmosphérique</strong><br>
+                La chaleur latente est un moteur essentiel des tempêtes tropicales. Lorsque la vapeur d’eau se condense dans les nuages, elle libère environ 2,5 × 10⁶ J/kg, ce qui réchauffe l’air et alimente la convection. Ce phénomène est particulièrement actif dans la ZCIT, où l’air humide s’élève et forme d’énormes cumulonimbus. (Source : « Météorologie tropicale », La Météorologie, 2019)
+            </div>
+
+            <div class="page-break">Page 2</div>
+            <p>La ZCIT est une région située près de l'équateur où les alizés de l'hémisphère nord et de l'hémisphère sud convergent. Cette convergence provoque des ascendances d'air chaud et humide, entraînant des précipitations intenses et une activité orageuse fréquente.</p>
+            <h2>5. **Mousson**</h2>
+            <p>La mousson est un système de vents saisonniers qui apporte des changements climatiques marqués, notamment des pluies abondantes. Elle est causée par la différence de température entre les continents et les océans. La mousson la plus connue est celle de l'Asie du Sud-Est.</p>
+            <h2>6. Alizés :</h2>
+            <p>Les alizés sont des vents réguliers et constants qui soufflent des zones subtropicales de haute pression vers la zone de convergence intertropicale (ZCIT). Ils sont principalement orientés d'est en ouest et jouent un rôle clé dans la circulation atmosphérique tropicale.</p>
+            <h2>7. Cellule de Hadley :</h2>
+            <p>La cellule de Hadley est un modèle de circulation atmosphérique qui transporte la chaleur de l'équateur vers les tropiques. L'air chaud monte à l'équateur, se déplace vers les pôles en altitude, puis redescend dans les régions subtropicales, créant ainsi une boucle de circulation.</p>
+            <h2>8. **Cellule de Ferrel :</h2>
+            <p>La cellule de Ferrel est une cellule de circulation atmosphérique située entre la cellule de Hadley (tropicale) et la cellule polaire. Elle transporte l'air des régions subtropicales vers les latitudes moyennes et est associée aux systèmes météorologiques des zones tempérées.</p>
+            <h2>9. **Vent orographique** :</h2>
+            <p>Le vent orographique est un vent influencé par le relief, comme les montagnes. Lorsque l'air rencontre une montagne, il est forcé de monter, ce qui peut entraîner des précipitations sur le versant au vent (côté exposé) et un effet d'ombre pluviométrique sur le versant sous le vent (côté abrité).</p>
+            <h2>10. **Force de Coriolis** :</h2>
+            <p>La force de Coriolis est une force apparente due à la rotation de la Terre, qui dévie les objets en mouvement (comme les vents ou les courants océaniques) vers la droite dans l'hémisphère nord et vers la gauche dans l'hémisphère sud. Elle influence la direction des vents et des courants marins.</p>
+            <h2>Vapeur d'eau :</h2>
+            <p>La vapeur d'eau est la phase gazeuse de l'eau, invisible à l'œil nu. C'est un composant naturel de l'atmosphère et un gaz à effet de serre important. Elle joue un rôle clé dans le cycle de l'eau et dans la régulation du climat. Ondes électromagnétiques Les ondes électromagnétiques sont des perturbations périodiques **des champs électrique et magnétique** qui se propagent dans l’espace sans nécessiter de support matériel.</p>
+            <h2>2. Ozone**</h2>
+            <p>L**ozone** (O3) est une molécule triatomique de l’oxygène, présente principalement dans deux couches atmosphériques :</p>
+            <h2>Effet de foehn</h2>
+            <p>Phénomène météorologique résultant de la **circulation d’une masse d’air sur un relief montagneux**. Lors de l’ascension, l’air se refroidit par détente adiabatique, entraînant condensation et précipitations sur le versant au vent. En redescendant, l’air sec se réchauffe adiabatiquement générant un **vent chaud et sec** sur le versant sous le vent.</p>
+            <h2>. Front</h2>
+            <p>En météorologie, un **front** désigne une **zone de transition** entre deux masses d’air aux propriétés distinctes (température, humidité, densité). On distingue :</p>
+            <ul>
+            <li>**Front froid** : l’air froid avance et soulève l’air chaud, provoquant des précipitations intenses.</li>
+            <li>**Front chaud** : l’air chaud glisse sur l’air froid, associé à des nuages stratiformes et des pluies modérées.</li>
+            <li>**Front occlus** : résultant de la rencontre d’un front froid et chaud, souvent lié à des systèmes dépressionnaires complexes [*définition standard, non explicitement couverte par les sources fournies*].</li>
+            </ul>
+            <h2>. Lumière visible</h2>
+            <p>Partie du spectre électromagnétique perceptible par l’œil humain.</p>
+            <h2>LES PROCESSUS DE FORMATION DES PLUIES</h2>
+            <p>impliquent plusieurs étapes :</p>
+            <ol>
+            <li>**ÉVAPORATION :** Leau des surfaces liquides (mers, lacs, rivières, etc.) est chauffée par le soleil, ce qui la transforme en vapeur d'eau et la fait monter dans l'atmosphère.</li>
+            <li>**CONDENSATION :** Lorsque la vapeur d'eau monte dans l'atmosphère, elle rencontre des couches d'air plus froides en altitude. Cette rencontre provoque la condensation de la vapeur d'eau en minuscules gouttelettes d'eau ou en cristaux de glace, formant ainsi des nuages.</li>
+            </ol>
+
+            <div class="complement">
+                <strong>📚 Complément – Les trois types de pluie</strong><br>
+                En météorologie, on distingue trois mécanismes principaux de formation des pluies :<br>
+                - <strong>Pluies convectives</strong> : liées à l’ascension rapide d’air chaud et humide (orages).<br>
+                - <strong>Pluies frontales</strong> : associées au soulèvement de l’air le long des fronts (dépressions des latitudes moyennes).<br>
+                - <strong>Pluies orographiques</strong> : provoquées par le relief (comme l’effet de foehn décrit plus haut).<br>
+                Dans tous les cas, la condensation nécessite la présence de noyaux de condensation (aérosols, poussières). (Source : « Le temps et le climat », Météo-France, 2022)
+            </div>
+
+            <div class="page-break">Page 3</div>
+            <ol start="3">
+            <li>**CROISSANCE DES GOUTTELETTES :** À mesure que les gouttelettes d'eau ou les cristaux de glace se forment, ils peuvent fusionner avec d'autres particules pour former des gouttes de pluie ou des flocons de neige plus gros.</li>
+            <li>**PRECIPITATION :** Lorsque les gouttes d'eau ou les cristaux de glace deviennent suffisamment lourds, ils tombent vers le sol sous l'effet de la gravité. C'est ce qu'on appelle la précipitation, qui peut se présenter sous forme de pluie, de neige, de grésil, etc.</li>
+            <li>**Cycle de l'eau :** Une fois sur le sol, l'eau peut s'infiltrer dans le sol pour former des nappes phréatiques, être absorbée par les plantes, ou retourner dans les cours d'eau pour recommencer le cycle.</li>
+            </ol>
+            <p>Ces processus interdépendants constituent le cycle de l'eau, un élément crucial pour le maintien de la vie sur Terre et pour la régulation du climat global.Bien sûr ! Voici les définitions et explications demandées :</p>
+            <h2>HYDROSPHERE</h2>
+            <p>. L’Océanisation (Formation des Bassins Océaniques)** Définition</p>
+            <p>Processus par lequel une portion de **croûte continentale** se transforme en **croûte océanique**, conduisant à la formation d’un bassin océanique. Ce mécanisme est lié à la **tectonique des plaques** et au cycle de Wilson (ouverture et fermeture des océans).</p>
+            <p>Étapes clés :</p>
+            <h2>I. Rifting continental :</h2>
+            <ul>
+            <li>Fracturation de la croûte continentale sous l’effet de forces tectoniques extensives.</li>
+            <li>Exemple : Le rift est-africain (futur océan en formation).</li>
+            </ul>
+            <h2>2. Étalement crustal :</h2>
+            <ul>
+            <li>Formation d’une dorsale océanique (ex. : dorsale médio-atlantique).</li>
+            <li>Émission de magma basalique créant une **nouvelle croûte océanique**.</li>
+            </ul>
+            <h2>3. Expansion océanique:</h2>
+            <ul>
+            <li>Éloignement des plaques et élargissement du bassin (ex. : l’océan Atlantique). Exemple concret** :</li>
+            <li>L’océan Atlantique s’est formé il y a environ 180 millions d’années par divergence des plaques africaine et sud-américaine.</li>
+            </ul>
+
+            <!-- Navigation -->
+            <div class="navigation">
+                <a href="index.html" class="nav-link">🏠 Sommaire</a>
+                <a href="part2.html" class="nav-link">➡ Partie suivante</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PASSWORD = "Armadel";
+        const loginOverlay = document.getElementById('loginOverlay');
+        const mainContent = document.getElementById('mainContent');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMsg = document.getElementById('errorMsg');
+
+        // Vérification auto si déjà authentifié
+        if (sessionStorage.getItem('auth') === PASSWORD) {
+            loginOverlay.classList.add('hidden');
+            mainContent.classList.add('visible');
+        }
+
+        function checkPassword() {
+            if (passwordInput.value === PASSWORD) {
+                sessionStorage.setItem('auth', PASSWORD);
+                loginOverlay.classList.add('hidden');
+                mainContent.classList.add('visible');
+            } else {
+                errorMsg.style.display = 'block';
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        }
+
+        loginBtn.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
+        passwordInput.addEventListener('input', () => { errorMsg.style.display = 'none'; });
+    </script>
+</body>
+</html>
