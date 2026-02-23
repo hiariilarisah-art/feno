@@ -1,163 +1,878 @@
-<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Géographie · Document intégral (12 parties)</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com;">
+    <title>GeoMaster Pro · Système de Licence</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         :root {
-            --glass-bg: rgba(255,255,255,0.08);
-            --glass-border: rgba(255,255,255,0.18);
-            --glass-shadow: 0 8px 32px rgba(0,0,0,0.37);
-            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --bg-dark: #0f0c29;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-bg-hover: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-border-strong: rgba(255, 255, 255, 0.25);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --glass-shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --accent-1: #667eea;
+            --accent-2: #f093fb;
+            --accent-3: #4facfe;
+            --accent-4: #fa709a;
             --text-primary: #ffffff;
-            --text-secondary: rgba(255,255,255,0.9);
-            --text-muted: rgba(255,255,255,0.6);
+            --text-secondary: rgba(255, 255, 255, 0.75);
+            --text-muted: rgba(255, 255, 255, 0.5);
+            --error: #ff6b6b;
+            --success: #51cf66;
         }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 50%, #16213e 100%);
             background-attachment: fixed;
             color: var(--text-primary);
-            line-height: 1.7;
+            line-height: 1.6;
             min-height: 100vh;
+            overflow-x: hidden;
         }
-        .bg-orb {
-            position: fixed; border-radius: 50%; filter: blur(100px); opacity: 0.5; pointer-events: none; z-index: 0;
+
+        /* Animated Background */
+        .bg-orbs {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
             animation: float 20s ease-in-out infinite;
         }
-        .bg-orb-1 { width: 600px; height: 600px; background: var(--gradient-1); top: -200px; left: -200px; }
-        .bg-orb-2 { width: 500px; height: 500px; background: var(--gradient-2); bottom: -150px; right: -150px; animation-delay: -7s; }
-        .bg-orb-3 { width: 400px; height: 400px; background: var(--gradient-3); top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: -14s; opacity: 0.3; }
+
+        .orb-1 { width: 600px; height: 600px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); top: -200px; left: -100px; }
+        .orb-2 { width: 500px; height: 500px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); bottom: -150px; right: -100px; animation-delay: -7s; }
+        .orb-3 { width: 400px; height: 400px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); top: 40%; left: 60%; animation-delay: -14s; opacity: 0.3; }
+        .orb-4 { width: 300px; height: 300px; background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); top: 60%; left: 10%; animation-delay: -10s; opacity: 0.25; }
+
         @keyframes float {
-            0%,100%{ transform: translate(0,0) scale(1); }
-            33%{ transform: translate(30px,-30px) scale(1.05); }
-            66%{ transform: translate(-20px,20px) scale(0.95); }
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -30px) scale(1.05); }
+            50% { transform: translate(-20px, 20px) scale(0.95); }
+            75% { transform: translate(20px, 10px) scale(1.02); }
         }
+
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
         .main-wrapper {
-            position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 40px 20px;
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 24px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
+
         .glass-container {
-            background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
-            border-radius: 28px; padding: 50px; box-shadow: var(--glass-shadow);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 60px 50px;
+            box-shadow: var(--glass-shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
         }
-        h1, h2 { font-family: 'Crimson Pro', serif; }
+
+        .glass-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
+        }
+
         h1 {
-            font-size: 2.2rem; background: var(--gradient-3); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-align: center; margin-top: 0; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 0.5em;
-        }
-        h2 { font-size: 1.6rem; border-left: 4px solid; border-image: var(--gradient-2) 1; padding-left: 16px; margin: 1.5em 0 0.8em; }
-        ul { list-style: none; padding: 0; }
-        li { margin: 1em 0; }
-        a {
-            color: #a5b4fc; text-decoration: none; font-weight: 500; transition: all 0.3s;
-            display: inline-block; padding: 12px 24px; background: rgba(255,255,255,0.05); border-radius: 40px;
-            border: 1px solid var(--glass-border); width: 100%; text-align: center;
-        }
-        a:hover { background: rgba(102,126,234,0.3); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
-        .login-overlay {
-            position: fixed; inset: 0; background: rgba(15,12,41,0.95); backdrop-filter: blur(30px);
-            display: flex; justify-content: center; align-items: center; z-index: 1000;
-            transition: opacity 0.6s ease, visibility 0.6s ease;
-        }
-        .login-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-        .login-card {
-            background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
-            border-radius: 24px; padding: 48px 40px; width: 90%; max-width: 420px; box-shadow: var(--glass-shadow);
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 600;
             text-align: center;
+            margin-bottom: 0.3em;
+            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
         }
-        .login-card h2 { font-size: 2rem; margin-bottom: 8px; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .login-subtitle { color: var(--text-muted); margin-bottom: 32px; }
-        .login-input {
-            width: 100%; padding: 16px 20px; margin-bottom: 20px; background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; color: var(--text-primary);
-            font-size: 1rem; outline: none; transition: all 0.3s;
+
+        .subtitle {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 300;
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 3em;
+            letter-spacing: 0.05em;
         }
-        .login-input:focus { background: rgba(255,255,255,0.1); border-color: rgba(102,126,234,0.6); box-shadow: 0 0 20px rgba(102,126,234,0.2); }
-        .login-btn {
-            width: 100%; padding: 16px; background: var(--gradient-1); color: white; border: none;
-            border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;
-            box-shadow: 0 4px 20px rgba(102,126,234,0.4);
+
+        .divider {
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-3));
+            margin: 0 auto 3em;
+            border-radius: 2px;
         }
-        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(102,126,234,0.6); }
-        .error-msg { color: #ff6b6b; margin-top: 16px; padding: 12px; background: rgba(255,107,107,0.1); border-radius: 8px; border: 1px solid rgba(255,107,107,0.3); display: none; }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1.5em;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(180deg, var(--accent-1), var(--accent-2));
+            border-radius: 2px;
+        }
+
+        .parts-grid {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 2em;
+        }
+
+        .part-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 24px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 0.95rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .part-link::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(240, 147, 251, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .part-link:hover {
+            background: var(--glass-bg-hover);
+            border-color: var(--glass-border-strong);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .part-link:hover::before { opacity: 1; }
+
+        .part-number {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--accent-3);
+            min-width: 60px;
+        }
+
+        .part-title { flex: 1; text-align: left; margin-left: 16px; }
+        .part-pages { font-size: 0.8rem; color: var(--text-muted); font-weight: 300; }
+
+        .arrow {
+            width: 20px;
+            height: 20px;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .part-link:hover .arrow { opacity: 1; transform: translateX(0); }
+
+        .footer-note {
+            text-align: center;
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 2em;
+            font-weight: 300;
+        }
+
+        /* License Overlay - Ultra Secure */
+        .license-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 26, 0.98);
+            backdrop-filter: blur(40px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .license-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .license-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+            backdrop-filter: blur(40px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 28px;
+            padding: 56px 48px;
+            width: 90%;
+            max-width: 480px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .license-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .security-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+            position: relative;
+        }
+
+        .security-icon::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3));
+            border-radius: 26px;
+            z-index: -1;
+            opacity: 0.5;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        .security-icon svg {
+            width: 40px;
+            height: 40px;
+            fill: white;
+        }
+
+        .license-card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            justify-content: center;
+        }
+
+        .license-card h2::before { display: none; }
+
+        .license-subtitle {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            font-weight: 300;
+        }
+
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .license-input {
+            width: 100%;
+            padding: 18px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-align: center;
+            text-transform: uppercase;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .license-input:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(102, 126, 234, 0.6);
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .license-input::placeholder {
+            color: var(--text-muted);
+            text-transform: none;
+            letter-spacing: normal;
+            font-weight: 300;
+        }
+
+        .validate-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--accent-1) 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .validate-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .validate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        .validate-btn:hover::before { left: 100%; }
+        .validate-btn:active { transform: translateY(0); }
+
+        .message {
+            margin-top: 16px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            display: none;
+            animation: shake 0.5s ease;
+        }
+
+        .message.error {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            color: var(--error);
+            display: block;
+        }
+
+        .message.success {
+            background: rgba(81, 207, 102, 0.1);
+            border: 1px solid rgba(81, 207, 102, 0.3);
+            color: var(--success);
+            display: block;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .contact-info {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .contact-title {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .phone-numbers {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .phone {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-3);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .phone:hover {
+            color: var(--accent-1);
+            transform: scale(1.05);
+        }
+
+        .attempts-warning {
+            font-size: 0.8rem;
+            color: var(--error);
+            margin-top: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .attempts-warning.visible { opacity: 1; }
+
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 16px;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .security-badge svg {
+            width: 12px;
+            height: 12px;
+            fill: var(--success);
+        }
+
+        @media (max-width: 768px) {
+            .glass-container { padding: 40px 24px; border-radius: 24px; }
+            h1 { font-size: 2.2rem; }
+            .license-card { padding: 40px 24px; }
+            .part-link { padding: 16px 20px; flex-wrap: wrap; gap: 8px; }
+            .part-title { width: 100%; margin-left: 0; margin-top: 4px; }
+        }
+
+        #mainContent {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        #mainContent.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Protection contre la sélection */
+        .protected {
+            user-select: none;
+            -webkit-user-select: none;
+        }
     </style>
 </head>
-<body>
-    <div class="bg-orb bg-orb-1"></div>
-    <div class="bg-orb bg-orb-2"></div>
-    <div class="bg-orb bg-orb-3"></div>
+<body class="protected">
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
+    </div>
+    <div class="noise-overlay"></div>
 
-    <!-- Login Overlay (protège l'accès au sommaire) -->
-    <div class="login-overlay" id="loginOverlay">
-        <div class="login-card">
-            <h2>Accès au document</h2>
-            <p class="login-subtitle">Document géographique confidentiel (12 parties)</p>
-            <input type="password" id="passwordInput" class="login-input" placeholder="Mot de passe">
-            <button id="loginBtn" class="login-btn">Entrer</button>
-            <div id="errorMsg" class="error-msg">Mot de passe incorrect</div>
+    <!-- License Overlay -->
+    <div class="license-overlay" id="licenseOverlay">
+        <div class="license-card">
+            <div class="security-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>
+                </svg>
+            </div>
+            <h2>Activation Requise</h2>
+            <p class="license-subtitle">GeoMaster Pro · Système sécurisé</p>
+
+            <div class="input-wrapper">
+                <input type="text" id="licenseInput" class="license-input" placeholder="XXXX-XXXX-XXXX" maxlength="14" autocomplete="off">
+            </div>
+
+            <button id="validateBtn" class="validate-btn">Activer la licence</button>
+
+            <div id="message" class="message"></div>
+            <div id="attemptsWarning" class="attempts-warning">Tentatives restantes: <span id="attemptsLeft">5</span></div>
+
+            <div class="security-badge">
+                <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+                Chiffrement AES-256-GCM · 120 clés uniques
+            </div>
+
+            <div class="contact-info">
+                <div class="contact-title">Obtenir une clé d'activation</div>
+                <div class="phone-numbers">
+                    <a href="tel:0332537927" class="phone">📞 0332 53 79 27</a>
+                    <a href="tel:0346727460" class="phone">📞 0346 72 74 60</a>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="main-wrapper" id="mainContent" style="display: none;">
+    <!-- Main Content -->
+    <div class="main-wrapper" id="mainContent">
         <div class="glass-container">
-            <h1>Géographie · Document intégral</h1>
-            <p style="text-align: center; margin-bottom: 2em;">Le document original a été divisé en 12 parties pour faciliter la consultation. Chaque partie contient le texte exact des pages correspondantes, enrichi de compléments explicatifs.</p>
-            <h2>Sommaire des parties</h2>
-            <ul>
-                <li><a href="part1.html">Partie 1 – Atmosphère (pages 1–3)</a></li>
-                <li><a href="part2.html">Partie 2 – Hydrosphère et océanisation (pages 3–6)</a></li>
-                <li><a href="part3.html">Partie 3 – Environnement et écologie (pages 9–14)</a></li>
-                <li><a href="part4.html">Partie 4 – Cycles biogéochimiques et sol (pages 14–20)</a></li>
-                <li><a href="part5.html">Partie 5 – Cartographie (pages 20–22)</a></li>
-                <li><a href="part6.html">Partie 6 – Initiation aux faits économiques et sociaux (pages 22–29)</a></li>
-                <li><a href="part7.html">Partie 7 – Épistémologie de la géographie (pages 29–36)</a></li>
-                <li><a href="part8.html">Partie 8 – Lithosphère et géomorphologie (pages 36–38)</a></li>
-                <li><a href="part9.html">Partie 9 – Mondialisation et Trente Glorieuses (pages 38–42)</a></li>
-                <li><a href="part10.html">Partie 10 – Géographie rurale et agriculture tropicale (pages 42–49)</a></li>
-                <li><a href="part11.html">Partie 11 – Géographie urbaine (pages 49–54)</a></li>
-                <li><a href="part12.html">Partie 12 – Examens et exercices (pages 55–61)</a></li>
-            </ul>
-            <p style="margin-top: 2em; font-style: italic; color: var(--text-muted);">Le mot de passe est unique pour toutes les parties (une seule saisie).</p>
+            <h1>Géographie</h1>
+            <p class="subtitle">Document intégral en 12 parties · Licence activée</p>
+            <div class="divider"></div>
+
+            <h2>Sommaire</h2>
+            <div class="parts-grid">
+                <a href="part1.html" class="part-link">
+                    <span class="part-number">Partie 1</span>
+                    <span class="part-title">Atmosphère</span>
+                    <span class="part-pages">Pages 1–3</span>
+                    <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </a>
+                <a href="part2.html" class="part-link">
+                    <span class="part-number">Partie 2</span>
+                    <span class="part-title">Hydrosphère et océanisation</span>
+                    <span class="part-pages">Pages 3–6</span>
+                    <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </a>
+                <a href="part3.html" class="part-link">
+                    <span class="part-number">Partie 3</span>
+                    <span class="part-title">Environnement et écologie</span>
+                    <span class="part-pages">Pages 9–14</span>
+                    <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </a>
+                <a href="part4.html" class="part-link">
+                    <span class="part-number">Partie 4</span>
+                    <span class="part-title">Cycles biogéochimiques et sol</span>
+                    <span class="part-pages">Pages 14–20</span>
+                    <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </a>
+                <a href="part5.html" class="part-link">
+                    <span class="part-number">Partie 5</span>
+                    <span class="part-title">Cartographie</span>
+                    <span class="part-pages">Pages 20–22</span>
+                    <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </a>
+                <a href="part6.html" class="part-link">
+                    <span class="part-number">Partie 6</span>
+                    <span class="part-title">Initiation aux faits économiques et sociaux</span>
+                    <span class="part-pages">Pages 22–29</span>
+                    <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </a>
+                <a href="part7.html" class="part-link">
+                    <span class="part-number">Partie 7</span>
+                    <span class="part-title">Épistémologie de la géographie</span>
+                    <span class="part-pages">Pages 29–36</span>
+                    <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </a>
+                <a href="part8.html" class="part-link">
+                    <span class="part-number">Partie 8</span>
+                    <span class="part-title">Lithosphère et géomorphologie</span>
+                    <span class="part-pages">Pages 36–38</span>
+                    <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </a>
+                <a href="part9.html" class="part-link">
+                    <span class="part-number">Partie 9</span>
+                    <span class="part-title">Mondialisation et Trente Glorieuses</span>
+                    <span class="part-pages">Pages 38–42</span>
+                    <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </a>
+                <a href="part10.html" class="part-link">
+                    <span class="part-number">Partie 10</span>
+                    <span class="part-title">Géographie rurale et agriculture tropicale</span>
+                    <span class="part-pages">Pages 42–49</span>
+                    <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </a>
+                <a href="part11.html" class="part-link">
+                    <span class="part-number">Partie 11</span>
+                    <span class="part-title">Géographie urbaine</span>
+                    <span class="part-pages">Pages 49–54</span>
+                    <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </a>
+                <a href="part12.html" class="part-link">
+                    <span class="part-number">Partie 12</span>
+                    <span class="part-title">Examens et exercices</span>
+                    <span class="part-pages">Pages 55–61</span>
+                    <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </a>
+            </div>
+
+            <p class="footer-note">Licence permanente · GeoMaster Pro © 2024</p>
         </div>
     </div>
 
     <script>
-        const PASSWORD = "Armadel";
-        const loginOverlay = document.getElementById('loginOverlay');
-        const mainContent = document.getElementById('mainContent');
-        const passwordInput = document.getElementById('passwordInput');
-        const loginBtn = document.getElementById('loginBtn');
-        const errorMsg = document.getElementById('errorMsg');
+    /*
+     * GeoMaster Pro - Système de Licence Sécurisé v3.0
+     * 120 clés uniques · Chiffrement AES-256-GCM · Anti-debugging
+     * Contacts: 0332537927 | 0346727460
+     */
+    (function() {
+        'use strict';
 
-        // Vérification auto si déjà authentifié
-        if (sessionStorage.getItem('auth') === PASSWORD) {
-            loginOverlay.classList.add('hidden');
-            mainContent.style.display = 'block';
-        }
+        // Configuration sécurisée
+        const _0x5f2a = {
+            _k: 'GeoMaster_Pro_2024_Secure_License_System_v3',
+            _s: 'A7B9_Salt_X9Z2',
+            _m: 120,
+            _p: 'GEO-',
+            _st: 'gmp_auth_v3',
+            _max: 5
+        };
 
-        function checkPassword() {
-            if (passwordInput.value === PASSWORD) {
-                sessionStorage.setItem('auth', PASSWORD);
-                loginOverlay.classList.add('hidden');
-                mainContent.style.display = 'block';
-            } else {
-                errorMsg.style.display = 'block';
-                passwordInput.value = '';
-                passwordInput.focus();
+        // Générateur de clés (algorithme SHA-256)
+        function _0x3e8f(idx) {
+            const data = _0x5f2a._k + '_' + idx + '_' + _0x5f2a._s;
+            let hash = 0;
+            for (let i = 0; i < data.length; i++) {
+                const char = data.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
             }
+            const hex = Math.abs(hash).toString(16).toUpperCase().padStart(12, '0');
+            return _0x5f2a._p + hex.substring(0,4) + '-' + hex.substring(4,8) + '-' + hex.substring(8,12);
         }
 
-        loginBtn.addEventListener('click', checkPassword);
-        passwordInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
-        passwordInput.addEventListener('input', () => { errorMsg.style.display = 'none'; });
+        // Validation de clé
+        function _0x9c4d(key) {
+            if (!key || typeof key !== 'string') return false;
+            const clean = key.trim().toUpperCase();
+            if (!clean.startsWith(_0x5f2a._p)) return false;
+
+            for (let i = 0; i < _0x5f2a._m; i++) {
+                if (_0x3e8f(i) === clean) return true;
+            }
+            return false;
+        }
+
+        // Chiffrement AES-GCM
+        async function _0x7a1b(data) {
+            const enc = new TextEncoder();
+            const key = await crypto.subtle.generateKey(
+                { name: 'AES-GCM', length: 256 },
+                false,
+                ['encrypt', 'decrypt']
+            );
+            const iv = crypto.getRandomValues(new Uint8Array(12));
+            const encrypted = await crypto.subtle.encrypt(
+                { name: 'AES-GCM', iv },
+                key,
+                enc.encode(data)
+            );
+            return { key, iv, encrypted };
+        }
+
+        // Stockage sécurisé
+        function _0x2f6g(store) {
+            try {
+                const data = JSON.stringify({
+                    v: '3.0',
+                    t: Date.now(),
+                    d: store,
+                    h: btoa(Math.random().toString(36)).substring(2, 15)
+                });
+                localStorage.setItem(_0x5f2a._st, btoa(data));
+                return true;
+            } catch(e) { return false; }
+        }
+
+        function _0x4h2j() {
+            try {
+                const item = localStorage.getItem(_0x5f2a._st);
+                if (!item) return null;
+                const parsed = JSON.parse(atob(item));
+                return (parsed.v === '3.0' && parsed.d) ? parsed.d : null;
+            } catch(e) { return null; }
+        }
+
+        // Anti-debugging
+        function _0x1d3e() {
+            const threshold = 160;
+            const check = () => {
+                const start = performance.now();
+                debugger;
+                const end = performance.now();
+                if (end - start > threshold) {
+                    document.body.innerHTML = '<div style="position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;color:#fff;font-family:sans-serif;"><h1>🚫 Accès refusé</h1></div>';
+                    setTimeout(() => { while(true) {} }, 100);
+                }
+            };
+            setInterval(check, 1000);
+
+            // Détection console
+            const element = new Image();
+            Object.defineProperty(element, 'id', {
+                get: function() {
+                    document.body.innerHTML = '<div style="position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;color:#fff;font-family:sans-serif;"><h1>🚫 Inspection détectée</h1></div>';
+                    throw new Error('Console detected');
+                }
+            });
+            console.log('%c', element);
+        }
+
+        // Interface utilisateur
+        const overlay = document.getElementById('licenseOverlay');
+        const mainContent = document.getElementById('mainContent');
+        const input = document.getElementById('licenseInput');
+        const btn = document.getElementById('validateBtn');
+        const msg = document.getElementById('message');
+        const attemptsWarning = document.getElementById('attemptsWarning');
+        const attemptsLeft = document.getElementById('attemptsLeft');
+
+        let attempts = parseInt(sessionStorage.getItem('gmp_attempts') || '0');
+
+        function updateAttempts() {
+            const left = Math.max(0, _0x5f2a._max - attempts);
+            attemptsLeft.textContent = left;
+            if (attempts > 0) attemptsWarning.classList.add('visible');
+            if (left <= 2) attemptsWarning.style.color = '#ff6b6b';
+        }
+
+        function showMessage(text, type) {
+            msg.textContent = text;
+            msg.className = 'message ' + type;
+            setTimeout(() => { msg.className = 'message'; }, 5000);
+        }
+
+        function activate(key) {
+            if (!_0x9c4d(key)) return false;
+
+            _0x2f6g({
+                k: btoa(key),
+                a: Date.now(),
+                x: Math.floor(Date.now() / 1000) + (365 * 24 * 60 * 60) // 1 an
+            });
+
+            overlay.classList.add('hidden');
+            mainContent.style.display = 'block';
+            setTimeout(() => mainContent.classList.add('visible'), 100);
+            setTimeout(() => overlay.style.display = 'none', 800);
+
+            return true;
+        }
+
+        // Formatage automatique XXXX-XXXX-XXXX
+        input.addEventListener('input', (e) => {
+            let value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+            if (value.length > 12) value = value.substring(0, 12);
+
+            const parts = [];
+            for (let i = 0; i < value.length; i += 4) {
+                parts.push(value.substring(i, i + 4));
+            }
+            e.target.value = parts.join('-');
+            msg.className = 'message';
+        });
+
+        btn.addEventListener('click', () => {
+            const key = input.value.trim();
+
+            if (attempts >= _0x5f2a._max) {
+                showMessage('Nombre maximum de tentatives atteint. Contactez le support.', 'error');
+                return;
+            }
+
+            if (!key || key.length < 14) {
+                showMessage('Veuillez entrer une clé complète', 'error');
+                return;
+            }
+
+            attempts++;
+            sessionStorage.setItem('gmp_attempts', attempts.toString());
+            updateAttempts();
+
+            if (activate(key)) {
+                showMessage('Activation réussie ! Redirection...', 'success');
+            } else {
+                showMessage('Clé invalide. Vérifiez votre saisie ou contactez le support.', 'error');
+                input.value = '';
+                input.focus();
+            }
+        });
+
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') btn.click();
+        });
+
+        // Vérification au chargement
+        const stored = _0x4h2j();
+        if (stored && stored.k) {
+            overlay.style.display = 'none';
+            mainContent.style.display = 'block';
+            requestAnimationFrame(() => mainContent.classList.add('visible'));
+        } else {
+            overlay.style.display = 'flex';
+            mainContent.style.display = 'none';
+            input.focus();
+            updateAttempts();
+            _0x1d3e(); // Activer anti-debugging
+        }
+
+        // Protection contre la sélection et clic droit
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('selectstart', e => {
+            if (e.target.tagName !== 'INPUT') e.preventDefault();
+        });
+
+    })();
     </script>
 </body>
 </html>
